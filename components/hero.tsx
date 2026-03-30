@@ -20,14 +20,13 @@ export default function Hero() {
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrent((prev) => (prev + 1) % slides.length);
-    }, 4000); // change every 4s
+    }, 4000);
 
     return () => clearInterval(interval);
   }, []);
 
   return (
     <div className="relative w-full h-125 overflow-hidden">
-      {/* Slides container */}
       <div
         className="flex h-full transition-transform duration-700 ease-in-out"
         style={{
@@ -47,14 +46,12 @@ export default function Hero() {
         ))}
       </div>
 
-      {/* Overlay (optional) */}
       <div className="absolute inset-0 bg-black/30 flex items-center justify-center">
         <h1 className="text-white text-3xl md:text-5xl font-bold">
-          Yuvaya Gel Pet Care
+          Yuvaya Gel
         </h1>
       </div>
 
-      {/* Dots */}
       <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
         {slides.map((_, index) => (
           <button

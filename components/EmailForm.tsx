@@ -6,31 +6,27 @@ export default function EmailForm() {
           Send Us an Email
         </h2>
         <p className="text-center text-gray-600 mb-8">
-          Have questions or want to say hi? Drop us a message below!
+          Drop us a message below!
         </p>
 
         <form className="flex flex-col gap-4">
-          {/* Name */}
           <input
             type="text"
             placeholder="Your Name"
             className="p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-main"
           />
 
-          {/* Email */}
           <input
             type="email"
             placeholder="Your Email"
             className="p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-main"
           />
 
-          {/* Message */}
           <textarea
             placeholder="Your Message"
             className="p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-main resize-none h-32"
           ></textarea>
 
-          {/* Submit button (non-functional) */}
           <button
             type="button"
             className="bg-main text-white font-semibold py-3 rounded-lg hover:bg-main/90 transition-colors"

@@ -10,20 +10,25 @@ export default function Navbar() {
   return (
     <nav className="w-full bg-secondaryOrange text-black px-6 py-4">
       <div className="flex items-center justify-between">
-        {/* Logo */}
         <Link href="/" className="text-xl font-bold">
-         <Image src="/logo.png" alt="Logo" width={100} height={100} />
+          <Image src="/logo.png" alt="Logo" width={100} height={100} />
         </Link>
 
-        {/* Desktop Menu */}
         <div className="hidden md:flex gap-6">
-          <Link className="hover:underline" href="/">Home</Link>
-          <Link className="hover:underline" href="/about">About</Link>
-          <Link className="hover:underline" href="/services">Services</Link>
-          <Link className="hover:underline" href="/contact">Contact</Link>
+          <Link className="hover:underline" href="/">
+            Home
+          </Link>
+          <Link className="hover:underline" href="/about">
+            About
+          </Link>
+          <Link className="hover:underline" href="/services">
+            Services
+          </Link>
+          <Link className="hover:underline" href="/contact">
+            Contact
+          </Link>
         </div>
 
-        {/* Mobile Menu Button */}
         <button
           className="md:hidden cursor-pointer"
           onClick={() => setMenuOpen(!menuOpen)}
@@ -32,13 +37,20 @@ export default function Navbar() {
         </button>
       </div>
 
-      {/* Mobile Menu */}
       {menuOpen && (
         <div className="flex flex-col gap-4 mt-4 md:hidden">
-          <Link href="/" onClick={() => setMenuOpen(false)}>Home</Link>
-          <Link href="/about" onClick={() => setMenuOpen(false)}>About</Link>
-          <Link href="/services" onClick={() => setMenuOpen(false)}>Services</Link>
-          <Link href="/contact" onClick={() => setMenuOpen(false)}>Contact</Link>
+          <Link href="/" onClick={() => setMenuOpen(false)}>
+            Home
+          </Link>
+          <Link href="/about" onClick={() => setMenuOpen(false)}>
+            About
+          </Link>
+          <Link href="/services" onClick={() => setMenuOpen(false)}>
+            Services
+          </Link>
+          <Link href="/contact" onClick={() => setMenuOpen(false)}>
+            Contact
+          </Link>
         </div>
       )}
     </nav>
