@@ -1,8 +1,15 @@
-/* eslint-disable @next/next/no-img-element */
 "use client";
+
+/* eslint-disable @next/next/no-img-element */
 
 import { useState } from "react";
 import Logo from "../logo";
+
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from "@/lib/firebase";
+
+import { setDoc, doc } from "firebase/firestore";
+import { db } from "@/lib/firebase";
 
 export default function SignUpForm() {
   const [name, setName] = useState("");
@@ -16,7 +23,7 @@ export default function SignUpForm() {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   };
 
-  const onSubmit = (e: React.FormEvent) => {
+  const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
 
@@ -35,23 +42,34 @@ export default function SignUpForm() {
       return;
     }
 
-    console.log({
-      name,
-      familyName,
-      email,
-      password,
-    });
+    try {
+      // 1. ساخت user در Firebase Auth
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+
+      const user = userCredential.user;
+
+      // 2. ذخیره اطلاعات اضافه در Firestore
+      await setDoc(doc(db, "users", user.uid), {
+        name,
+        familyName,
+        email,
+      });
+
+      console.log("Signup success");
+    } catch (err: any) {
+      setError(err.message);
+    }
   };
 
   return (
     <div className="flex-1 flex flex-col justify-center items-center p-8 md:p-16 bg-green-900">
       <Logo className="w-64 mb-8" height={140} width={140} />
 
-      <form
-        onSubmit={onSubmit}
-        noValidate
-        className="w-full max-w-md space-y-4"
-      >
+      <form onSubmit={onSubmit} className="w-full max-w-md space-y-4">
         <div>
           <label className="block text-sm font-medium text-white">Name *</label>
           <input
@@ -114,7 +132,7 @@ export default function SignUpForm() {
 
         <button
           type="submit"
-          className="w-full mt-4 bg-[#e98b33] cursor-pointer hover:bg-[#e4aa3f] text-white py-3 rounded-lg font-bold"
+          className="w-full mt-4 bg-[#e98b33] hover:bg-[#e4aa3f] text-white py-3 rounded-lg font-bold"
         >
           Sign Up
         </button>
@@ -122,7 +140,7 @@ export default function SignUpForm() {
 
       <p className="mt-6 text-lg text-white">
         Already a member?{" "}
-        <a href="/login" className=" text-blue-500 font-bold hover:underline">
+        <a href="/login" className="text-blue-500 font-bold hover:underline">
           Login
         </a>
       </p>

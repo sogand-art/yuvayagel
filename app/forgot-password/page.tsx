@@ -3,6 +3,8 @@
 import { useState } from "react";
 import Logo from "@/components/logo";
 import Link from "next/link";
+import { sendPasswordResetEmail } from "firebase/auth";
+import { auth } from "@/lib/firebase";
 
 export default function ForgotPasswordPage() {
   const [email, setEmail] = useState("");
@@ -31,11 +33,15 @@ export default function ForgotPasswordPage() {
 
     setLoading(true);
 
-    setTimeout(() => {
-      setLoading(false);
-      setMessage("Reset link sent to your email");
-      setEmail("");
-    }, 1000);
+   try {
+  await sendPasswordResetEmail(auth, email);
+  setMessage("Reset link sent to your email");
+  setEmail("");
+} catch (err: any) {
+  setError(err.message);
+} finally {
+  setLoading(false);
+}
   };
 
   return (
