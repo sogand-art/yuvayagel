@@ -43,7 +43,7 @@ export default function SignUpForm() {
     }
 
     try {
-      // 1. ساخت user در Firebase Auth
+     
       const userCredential = await createUserWithEmailAndPassword(
         auth,
         email,
@@ -52,7 +52,7 @@ export default function SignUpForm() {
 
       const user = userCredential.user;
 
-      // 2. ذخیره اطلاعات اضافه در Firestore
+     
       await setDoc(doc(db, "users", user.uid), {
         name,
         familyName,
