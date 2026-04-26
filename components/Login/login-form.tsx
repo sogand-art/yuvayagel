@@ -1,8 +1,9 @@
-/* eslint-disable @next/next/no-img-element */
 "use client";
 
 import { useState } from "react";
 import Logo from "../logo";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "@/lib/firebase";
 
 export default function LoginForm() {
   const [email, setEmail] = useState("");
@@ -13,7 +14,7 @@ export default function LoginForm() {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   };
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
 
@@ -27,10 +28,12 @@ export default function LoginForm() {
       return;
     }
 
-    console.log({
-      email,
-      password,
-    });
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+      console.log("Login success");
+    } catch (err: any) {
+      setError(err.message);
+    }
   };
 
   return (
@@ -81,7 +84,7 @@ export default function LoginForm() {
 
       <p className="mt-6 text-lg text-white">
         Not a member?{" "}
-        <a href="/signup" className=" text-blue-500 font-bold hover:underline">
+        <a href="/signup" className="text-blue-500 font-bold hover:underline">
           Sign Up
         </a>
       </p>
