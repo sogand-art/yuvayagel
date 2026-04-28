@@ -1,38 +1,78 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import Logo from "../logo";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "@/lib/firebase";
+import {
+  signInWithEmailAndPassword,
+  GoogleAuthProvider,
+  signInWithPopup,
+} from "firebase/auth";
+import { doc, setDoc, serverTimestamp } from "firebase/firestore";
+import { auth, db } from "@/lib/firebase";
 
 export default function LoginForm() {
+  const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-
-  const isValidEmail = (email: string) => {
-    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-  };
+  const [loading, setLoading] = useState(false);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
-
-    if (!email || !password) {
-      setError("Fill all required fields");
-      return;
-    }
-
-    if (!isValidEmail(email)) {
-      setError("Invalid email");
-      return;
-    }
+    setLoading(true);
 
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      console.log("Login success");
-    } catch (err: any) {
-      setError(err.message);
+      router.push("/");
+    } catch (err) {
+      setError("Invalid email or password");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleGoogleLogin = async () => {
+    setError("");
+    setLoading(true);
+
+    try {
+      const provider = new GoogleAuthProvider();
+      provider.setCustomParameters({ prompt: "select_account" });
+
+      const userCredential = await signInWithPopup(auth, provider);
+      const user = userCredential.user;
+
+      const email = user.email;
+      if (!email) throw new Error("Google account missing email");
+
+      const fullName = user.displayName?.split(" ") ?? [];
+      const firstName = fullName.length > 0 ? fullName[0] : "";
+      const lastName = fullName.length > 1 ? fullName.slice(1).join(" ") : "";
+
+      const userRef = doc(db, "Users", email);
+
+      await setDoc(
+        userRef,
+        {
+          email: email,
+          ad: firstName,
+          soyad: lastName,
+          provider: "google",
+          createdAt: serverTimestamp(),
+          updatedAt: serverTimestamp(),
+        },
+        { merge: true },
+      );
+
+      router.push("/");
+    } catch (err) {
+      console.error(err);
+      setError("Google Sign-In Failed");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -76,10 +116,17 @@ export default function LoginForm() {
 
         <button
           type="submit"
-          className="w-full mt-4 bg-[#e98b33] cursor-pointer hover:bg-[#e4aa3f] text-white py-3 rounded-lg font-bold"
+          disabled={loading}
+          className="w-full mt-4 bg-[#e98b33] cursor-pointer hover:bg-[#e4aa3f] text-white py-3 rounded-lg font-bold disabled:opacity-50"
         >
-          Login
+          {loading ? "Logging in..." : "Login"}
         </button>
+
+        <div className="my-5 flex items-center w-full">
+          <div className="grow border-t border-white opacity-30"></div>
+          <span className="mx-4 text-white font-semibold">OR</span>
+          <div className="grow border-t border-white opacity-30"></div>
+        </div>
       </form>
 
       <p className="mt-6 text-lg text-white">

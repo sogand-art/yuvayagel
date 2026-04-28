@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 /* eslint-disable @next/next/no-img-element */
@@ -43,16 +44,14 @@ export default function SignUpForm() {
     }
 
     try {
-     
       const userCredential = await createUserWithEmailAndPassword(
         auth,
         email,
-        password
+        password,
       );
 
       const user = userCredential.user;
 
-     
       await setDoc(doc(db, "users", user.uid), {
         name,
         familyName,
@@ -136,6 +135,11 @@ export default function SignUpForm() {
         >
           Sign Up
         </button>
+        <div className="my-5 flex items-center w-full">
+          <div className="grow border-t border-white opacity-30"></div>
+          <span className="mx-4 text-white font-semibold">OR</span>
+          <div className="grow border-t border-white opacity-30"></div>
+        </div>
       </form>
 
       <p className="mt-6 text-lg text-white">

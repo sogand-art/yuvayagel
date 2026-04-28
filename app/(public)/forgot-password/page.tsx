@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { useState } from "react";
@@ -12,50 +13,59 @@ export default function ForgotPasswordPage() {
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
 
-  const isValidEmail = (email: string) => {
-    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-  };
+  const isValidEmail = (email: string) =>
+    /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
 
   const handleReset = async (e: React.FormEvent) => {
     e.preventDefault();
     setMessage("");
     setError("");
 
-    if (!email) {
+    const cleanEmail = email.trim();
+
+    if (!cleanEmail) {
       setError("Enter your email");
       return;
     }
 
-    if (!isValidEmail(email)) {
-      setError("Invalid email");
+    if (!isValidEmail(cleanEmail)) {
+      setError("Invalid email format");
       return;
     }
 
     setLoading(true);
 
-   try {
-  await sendPasswordResetEmail(auth, email);
-  setMessage("Reset link sent to your email");
-  setEmail("");
-} catch (err: any) {
-  setError(err.message);
-} finally {
-  setLoading(false);
-}
+    try {
+      await sendPasswordResetEmail(auth, cleanEmail);
+
+      setMessage("If this email exists, a reset link has been sent.");
+      setEmail("");
+    } catch (err: any) {
+      // Firebase-safe error handling
+      const code = err?.code;
+
+      if (code === "auth/user-not-found") {
+        setError("No account found with this email");
+      } else if (code === "auth/invalid-email") {
+        setError("Invalid email");
+      } else {
+        setError("Failed to send reset email. Try again.");
+      }
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-green-900 p-6">
+    <div className="min-h-screen flex flex-col items-center justify-center bg-green-900 p-6 overflow-hidden">
       <Logo className="w-64 mb-8" height={140} width={140} />
 
       <h1 className="text-3xl font-bold text-white mb-2">
-        {" "}
-        Forgot Your Password?{" "}
+        Forgot Your Password?
       </h1>
 
       <p className="text-white/80 text-center max-w-md mb-6">
-        Enter your email address and we’ll send you a link to reset your
-        password.
+        Enter your email and we’ll send you a reset link.
       </p>
 
       <form onSubmit={handleReset} className="w-full max-w-md space-y-4">
@@ -63,6 +73,7 @@ export default function ForgotPasswordPage() {
           <label className="block text-sm font-medium text-white">
             Email *
           </label>
+
           <input
             type="email"
             value={email}
@@ -74,7 +85,7 @@ export default function ForgotPasswordPage() {
         <button
           type="submit"
           disabled={loading}
-          className="w-full mt-4 bg-[#e98b33] cursor-pointer hover:bg-[#e4aa3f] text-white py-3 rounded-lg font-bold disabled:opacity-60"
+          className="w-full mt-4 bg-[#e98b33] hover:bg-[#e4aa3f] text-white py-3 rounded-lg font-bold disabled:opacity-60"
         >
           {loading ? "Sending..." : "Send Reset Link"}
         </button>
@@ -82,7 +93,7 @@ export default function ForgotPasswordPage() {
         <div className="text-center">
           <Link
             href="/login"
-            className="text-blue-500 font-bold hover:underline mt-2"
+            className="text-blue-500 font-bold hover:underline"
           >
             Login Now
           </Link>
