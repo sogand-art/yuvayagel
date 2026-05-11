@@ -33,16 +33,17 @@ export default function AdminMessagesPage() {
       collection(db, "conversations"),
       orderBy("updatedAt", "desc"),
     );
+
     const unsub = onSnapshot(q, (snapshot) => {
-      const convs = snapshot.docs
-        .filter((doc) => doc.data().status !== "finished") // hide finished
-        .map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        })) as Conversation[];
+      const convs = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      })) as Conversation[];
+
       setConversations(convs);
       setLoading(false);
     });
+
     return () => unsub();
   }, []);
 
@@ -71,7 +72,13 @@ export default function AdminMessagesPage() {
                   <p className="text-white/80 text-sm mt-1">
                     Status:{" "}
                     <span
-                      className={`capitalize ${conv.status === "scheduled" ? "text-yellow-300" : "text-green-300"}`}
+                      className={`capitalize ${
+                        conv.status === "scheduled"
+                          ? "text-yellow-300"
+                          : conv.status === "finished"
+                            ? "text-red-400"
+                            : "text-green-300"
+                      }`}
                     >
                       {conv.status}
                     </span>

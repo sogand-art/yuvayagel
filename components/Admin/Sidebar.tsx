@@ -8,6 +8,7 @@ const links = [
   { href: "/admin", label: "Dashboard" },
   { href: "/admin/pets", label: "Pets" },
   { href: "/admin/messages", label: "Messages" },
+  { href: "/admin/adopted", label: "Adopted" },
 ];
 
 export default function Sidebar() {

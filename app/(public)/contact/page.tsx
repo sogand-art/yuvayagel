@@ -78,11 +78,16 @@ export default function ContactPage() {
     try {
       // Create conversation document (general inquiry)
       const convRef = await addDoc(collection(db, "conversations"), {
+        conversationType: "general",
+
         petId: null,
         petName: `General Inquiry – ${formData.subject || "No Subject"}`,
+
         userName: formData.name,
         userEmail: formData.email,
+
         status: "active",
+
         createdAt: serverTimestamp(),
         updatedAt: serverTimestamp(),
       });

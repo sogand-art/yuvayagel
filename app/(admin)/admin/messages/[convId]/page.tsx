@@ -37,15 +37,15 @@ export default function AdminChatPage() {
   const [error, setError] = useState<string | null>(null);
   const [newMsg, setNewMsg] = useState("");
   const bottomRef = useRef<HTMLDivElement>(null);
-  const [scheduleError, setScheduleError] = useState("");
 
-  // Schedule state
   const [showSchedule, setShowSchedule] = useState(false);
-  const [scheduleDate, setScheduleDate] = useState("");
 
-  // Fetch conversation document
+  const isFinished = conversation?.status === "finished";
+
+  // Fetch conversation
   useEffect(() => {
     if (!convId) return;
+
     (async () => {
       try {
         const snap = await getDoc(doc(db, "conversations", convId));
@@ -54,6 +54,7 @@ export default function AdminChatPage() {
           return;
         }
         setConversation({ id: snap.id, ...snap.data() });
+        setLoading(false);
       } catch (err) {
         console.error(err);
         setError("Failed to load conversation.");
@@ -61,9 +62,10 @@ export default function AdminChatPage() {
     })();
   }, [convId, router]);
 
-  // Subscribe to messages (real‑time)
+  // Messages listener
   useEffect(() => {
     if (!convId) return;
+
     const q = query(
       collection(db, "messages"),
       where("conversationId", "==", convId),
@@ -77,12 +79,13 @@ export default function AdminChatPage() {
           id: d.id,
           ...d.data(),
         })) as Message[];
+
         setMessages(msgs);
         setLoading(false);
-        setError(null); // clear any previous error
+        setError(null);
       },
       (err) => {
-        console.error("Snapshot error:", err);
+        console.error(err);
         setError(err.message);
         setLoading(false);
       },
@@ -91,15 +94,52 @@ export default function AdminChatPage() {
     return () => unsub();
   }, [convId]);
 
-  // Auto scroll to bottom when new messages arrive
-  useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages]);
+  // Adopt handler
+  const handleAdopted = async () => {
+    if (!conversation || isFinished) return;
 
-  // Send a reply
+    const confirmAdoption = confirm(`Mark ${conversation.petName} as adopted?`);
+    if (!confirmAdoption) return;
+
+    try {
+      await addDoc(collection(db, "adoptedPets"), {
+        petId: conversation.petId,
+        petName: conversation.petName,
+        petImage: conversation.petImage || "",
+        petBreed: conversation.petBreed || "",
+        petSpecies: conversation.petSpecies || "",
+        adopterName: conversation.userName,
+        adopterEmail: conversation.userEmail,
+        adopterId: conversation.userId,
+        conversationId: convId,
+        adoptedAt: serverTimestamp(),
+      });
+
+      if (conversation.petId) {
+        await updateDoc(doc(db, "pets", conversation.petId), {
+          availability: "adopted",
+        });
+      }
+
+      await updateDoc(doc(db, "conversations", convId), {
+        status: "finished",
+        updatedAt: serverTimestamp(),
+      });
+
+      setConversation((prev: any) => ({
+        ...prev,
+        status: "finished",
+      }));
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  // Send message
   const handleSend = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!newMsg.trim()) return;
+    if (isFinished || !newMsg.trim()) return;
+
     try {
       await addDoc(collection(db, "messages"), {
         conversationId: convId,
@@ -107,221 +147,133 @@ export default function AdminChatPage() {
         text: newMsg.trim(),
         createdAt: serverTimestamp(),
       });
+
       await updateDoc(doc(db, "conversations", convId), {
         updatedAt: serverTimestamp(),
       });
+
       setNewMsg("");
     } catch (err) {
       console.error(err);
     }
   };
 
-  // Schedule / Reschedule
-  const handleSchedule = async () => {
-    if (!scheduleDate) {
-      setScheduleError("Please pick a date and time.");
-      return;
-    }
-
-    const parsedDate = new Date(scheduleDate);
-    if (isNaN(parsedDate.getTime())) {
-      setScheduleError("Invalid date. Please select a valid appointment time.");
-      return;
-    }
-
-    try {
-      await updateDoc(doc(db, "conversations", convId), {
-        status: "scheduled",
-        scheduledTime: Timestamp.fromDate(parsedDate),
-        updatedAt: serverTimestamp(),
-      });
-      setShowSchedule(false);
-      setScheduleError("");
-    } catch (err) {
-      console.error(err);
-      setScheduleError("Failed to schedule. Check console for details.");
-    }
-  };
-
-  // Finish conversation
+  // Finish chat (NO redirect)
   const handleFinish = async () => {
-    if (
-      !confirm(
-        "Mark this conversation as finished? It will be removed from the list.",
-      )
-    )
-      return;
+    if (!confirm("Mark this conversation as finished?")) return;
+
     try {
       await updateDoc(doc(db, "conversations", convId), {
         status: "finished",
         updatedAt: serverTimestamp(),
       });
-      router.push("/admin/messages");
+
+      setConversation((prev: any) => ({
+        ...prev,
+        status: "finished",
+      }));
     } catch (err) {
       console.error(err);
     }
   };
 
-  // Loading or error states
+  // Auto scroll
+  useEffect(() => {
+    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
+
   if (loading) {
-    return (
-      <div className="text-white text-center text-lg mt-20">
-        Loading conversation...
-      </div>
-    );
+    return <div className="text-white text-center mt-20">Loading...</div>;
   }
 
   if (error) {
-    return (
-      <div className="text-center text-red-400 mt-20">
-        <p>{error}</p>
-        <button
-          onClick={() => window.location.reload()}
-          className="mt-4 bg-[#e98b33] text-white px-4 py-2 rounded-lg"
-        >
-          Retry
-        </button>
-      </div>
-    );
+    return <div className="text-red-400 text-center mt-20">{error}</div>;
   }
 
   return (
     <div className="flex flex-col h-[90vh]">
-      {/* Top bar */}
+      {/* TOP BAR */}
       <div className="flex justify-between items-center mb-4">
-        <Link href="/admin/messages" className="text-[#e98b33] hover:underline">
+        <Link href="/admin/messages" className="text-[#e98b33]">
           ← Back
         </Link>
+
         <div className="flex gap-2">
+          {/* ALWAYS visible adopt button */}
+          <button
+            onClick={handleAdopted}
+            disabled={isFinished}
+            className={`px-4 py-2 rounded-lg text-sm text-white
+              ${isFinished ? "bg-gray-600" : "bg-green-600 hover:bg-green-700"}
+            `}
+          >
+            Mark Adopted
+          </button>
+
           <button
             onClick={() => setShowSchedule(!showSchedule)}
-            className="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-lg text-sm"
+            className="bg-yellow-500 px-4 py-2 rounded-lg text-sm text-white"
           >
-            {conversation?.status === "scheduled"
-              ? "Reschedule"
-              : "Schedule Appointment"}
+            Schedule
           </button>
+
           <button
             onClick={handleFinish}
-            className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg text-sm"
+            className="bg-red-500 px-4 py-2 rounded-lg text-sm text-white"
           >
             Finish
           </button>
         </div>
       </div>
 
-      {/* ---------- PERSISTENT APPOINTMENT BANNER ---------- */}
-      {conversation?.status === "scheduled" && conversation?.scheduledTime && (
-        <div className="bg-green-700 text-white px-4 py-3 rounded-xl mb-4 flex items-center gap-2">
-          <span>📅</span>
-          <span>
-            Appointment scheduled for{" "}
-            <strong>
-              {new Date(
-                conversation.scheduledTime.seconds * 1000,
-              ).toLocaleString()}
-            </strong>
-          </span>
+      {/* PET CARD */}
+      {conversation?.conversationType === "adoption" && (
+        <div className="bg-white/10 p-4 rounded-xl mb-4 text-white">
+          <h2 className="text-xl font-bold">{conversation.petName}</h2>
+          <p>{conversation.petBreed}</p>
         </div>
       )}
 
-      {/* Schedule date picker (conditionally visible) */}
-      {showSchedule && (
-        <div className="bg-white/10 p-4 rounded-xl mb-4">
-          <p className="text-white mb-2">Set appointment date & time:</p>
-          <div className="flex gap-3 items-start flex-wrap">
-            <div>
-              <label className="text-white/70 text-sm block mb-1">Date</label>
-              <input
-                type="date"
-                value={scheduleDate ? scheduleDate.split("T")[0] : ""}
-                onChange={(e) => {
-                  const datePart = e.target.value;
-                  const timePart = scheduleDate.split("T")[1] || "10:00";
-                  setScheduleDate(`${datePart}T${timePart}`);
-                  setScheduleError("");
-                }}
-                className="bg-white text-black px-3 py-2 rounded-lg"
-                required
-              />
-            </div>
-            <div>
-              <label className="text-white/70 text-sm block mb-1">Time</label>
-              <input
-                type="time"
-                value={
-                  scheduleDate
-                    ? scheduleDate.split("T")[1]?.slice(0, 5)
-                    : "10:00"
-                }
-                onChange={(e) => {
-                  const timePart = e.target.value;
-                  const datePart =
-                    scheduleDate.split("T")[0] ||
-                    new Date().toISOString().split("T")[0];
-                  setScheduleDate(`${datePart}T${timePart}`);
-                  setScheduleError("");
-                }}
-                className="bg-white text-black px-3 py-2 rounded-lg"
-                required
-              />
-            </div>
-          </div>
-          <button
-            onClick={handleSchedule}
-            className="mt-3 bg-[#e98b33] text-white px-4 py-2 rounded-lg"
-          >
-            Confirm
-          </button>
-          {scheduleError && (
-            <p className="text-red-300 text-sm mt-2">{scheduleError}</p>
-          )}
+      {/* FINISHED BANNER */}
+      {isFinished && (
+        <div className="bg-red-600 text-white p-3 rounded-xl mb-4">
+          This conversation is finished (read-only history).
         </div>
       )}
 
-      {/* Messages list */}
-      <div className="flex-1 overflow-y-auto bg-white/5 rounded-xl p-4 space-y-4 mb-4">
+      {/* MESSAGES */}
+      <div className="flex-1 overflow-y-auto bg-white/5 p-4 rounded-xl space-y-3 mb-4">
         {messages.map((msg) => (
           <div
             key={msg.id}
             className={`flex ${msg.sender === "admin" ? "justify-end" : "justify-start"}`}
           >
-            <div
-              className={`max-w-[75%] px-4 py-2 rounded-xl ${
-                msg.sender === "admin"
-                  ? "bg-blue-500 text-white"
-                  : "bg-white/20 text-white"
-              }`}
-            >
-              <p className="text-sm">{msg.text}</p>
-              <p className="text-xs text-white/50 mt-1">
-                {msg.createdAt?.toDate().toLocaleTimeString([], {
-                  hour: "2-digit",
-                  minute: "2-digit",
-                })}
-              </p>
+            <div className="px-4 py-2 rounded-xl bg-white/20 text-white">
+              {msg.text}
             </div>
           </div>
         ))}
         <div ref={bottomRef} />
       </div>
 
-      {/* Message input */}
-      <form onSubmit={handleSend} className="flex gap-2">
-        <input
-          type="text"
-          value={newMsg}
-          onChange={(e) => setNewMsg(e.target.value)}
-          placeholder="Reply..."
-          className="flex-1 px-4 py-2 rounded-lg bg-white text-black"
-        />
-        <button
-          type="submit"
-          className="bg-[#e98b33] hover:bg-[#e4aa3f] text-white px-6 py-2 rounded-lg font-semibold"
-        >
-          Send
-        </button>
-      </form>
+      {/* INPUT */}
+      {isFinished ? (
+        <div className="text-center text-red-200 bg-red-500/20 p-3 rounded-xl">
+          Chat is closed. You can only view history.
+        </div>
+      ) : (
+        <form onSubmit={handleSend} className="flex gap-2">
+          <input
+            value={newMsg}
+            onChange={(e) => setNewMsg(e.target.value)}
+            className="flex-1 px-4 py-2 rounded-lg"
+            placeholder="Reply..."
+          />
+          <button className="bg-[#e98b33] px-6 py-2 rounded-lg text-white">
+            Send
+          </button>
+        </form>
+      )}
     </div>
   );
 }

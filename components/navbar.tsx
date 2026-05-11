@@ -69,6 +69,12 @@ export default function Navbar() {
             Cats
           </Link>
           <Link
+            className="hover:text-[#e98b33] transition-colors"
+            href="/liked"
+          >
+            Liked
+          </Link>
+          <Link
             href="/my-messages"
             className="hover:text-[#e98b33] transition-colors"
           >
@@ -134,14 +140,14 @@ export default function Navbar() {
           <Link href="/pets?species=cat" onClick={() => setMenuOpen(false)}>
             Cats
           </Link>
+          <Link href="/liked" onClick={() => setMenuOpen(false)}>
+            Liked
+          </Link>
           <Link href="/my-messages" onClick={() => setMenuOpen(false)}>
             My Messages
           </Link>
           <Link href="/about" onClick={() => setMenuOpen(false)}>
             About
-          </Link>
-          <Link href="/contact" onClick={() => setMenuOpen(false)}>
-            Contact
           </Link>
           <Link href="/contact" onClick={() => setMenuOpen(false)}>
             Contact
