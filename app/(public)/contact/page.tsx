@@ -110,28 +110,33 @@ export default function ContactPage() {
   };
 
   return (
-    <div className="min-h-screen bg-green-900 py-12 px-4 md:px-8">
+    <div className="brand-page-bg min-h-screen py-12 px-4 md:px-8">
       <div className="max-w-5xl mx-auto">
-        <h1 className="text-4xl md:text-5xl font-extrabold text-white text-center mb-12">
-          Contact Us
-        </h1>
+        <div className="mb-12 text-center">
+          <p className="text-sm font-extrabold uppercase tracking-[0.18em] text-[#79c617]">
+            Start the conversation
+          </p>
+          <h1 className="mt-2 text-4xl md:text-5xl font-extrabold text-[#171717]">
+            Contact Us
+          </h1>
+        </div>
 
         {/* Contact info cards */}
         <div className="grid md:grid-cols-2 gap-6 mb-16">
-          <div className="bg-white/10 backdrop-blur-md rounded-2xl border border-white/20 p-6 text-center">
+          <div className="rounded-[2rem] border-4 border-[#37357f] bg-white p-6 text-center shadow-lg">
             <div className="text-4xl mb-3">📞</div>
-            <h3 className="text-xl font-semibold text-white mb-1">Phone</h3>
-            <p className="text-white/80 text-lg">+90 555 123 4567</p>
+            <h3 className="text-xl font-semibold text-[#37357f] mb-1">Phone</h3>
+            <p className="text-[#171717]/75 text-lg">+90 555 123 4567</p>
           </div>
-          <div className="bg-white/10 backdrop-blur-md rounded-2xl border border-white/20 p-6 text-center">
+          <div className="rounded-[2rem] border-4 border-[#37357f] bg-white p-6 text-center shadow-lg">
             <div className="text-4xl mb-3">✉️</div>
             <h3 className="text-xl font-semibold text-white mb-1">Email</h3>
-            <p className="text-white/80 text-lg">info@yuvayagel.com</p>
+            <p className="text-[#171717]/75 text-lg">info@yuvayagel.com</p>
           </div>
         </div>
 
         {/* Contact form */}
-        <div className="bg-white/10 backdrop-blur-md rounded-2xl border border-white/20 p-6 md:p-8">
+        <div className="brand-dark-bg rounded-[2rem] border-4 border-[#171717] p-6 shadow-xl md:p-8">
           <h2 className="text-2xl font-bold text-white mb-6 flex items-center gap-2">
             <span>💬</span> Send Us a Message
           </h2>
@@ -189,14 +194,14 @@ export default function ContactPage() {
                 <button
                   type="submit"
                   disabled={sending}
-                  className="bg-[#e98b33] hover:bg-[#e4aa3f] text-white px-6 py-2 rounded-full font-semibold disabled:opacity-50"
+                  className="bg-[#4f8f11] hover:bg-[#355e0c] cursor-pointer text-white px-6 py-2 rounded-full font-bold disabled:opacity-50"
                 >
                   {sending ? "Sending..." : "Send Message"}
                 </button>
               </div>
               {formStatus === "error" && (
                 <p className="text-red-400 text-sm">
-                  ❌ Failed to send. Please try again.
+                  Failed to send. Please try again.
                 </p>
               )}
             </form>

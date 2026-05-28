@@ -53,32 +53,43 @@ export default function AdminLoginForm() {
   };
 
   return (
-    <div className="flex-1 flex flex-col justify-center items-center p-8 md:p-16 bg-green-900">
+    <div className="brand-page-bg flex-1 flex flex-col justify-center items-center p-8 md:p-16">
       <Logo className="w-64 mb-8" height={140} width={140} />
 
-      <form onSubmit={handleLogin} className="w-full max-w-md space-y-4">
+      <form
+        onSubmit={handleLogin}
+        className="w-full max-w-md space-y-4 rounded-2xl border border-white/12 bg-white/[0.075] p-6 text-white shadow-[0_24px_60px_rgba(0,0,0,0.28)] backdrop-blur-xl"
+      >
         <div>
-          <label className="block text-sm font-medium text-white">
+          <p className="text-sm font-extrabold uppercase tracking-[0.18em] text-[#a71d18]">
+            Staff access
+          </p>
+          <h1 className="mt-1 text-2xl font-extrabold text-white">
+            Admin Login
+          </h1>
+        </div>
+        <div>
+          <label className="block text-sm font-bold text-white/70">
             Email *
           </label>
           <input
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="mt-1 w-full rounded-lg border-2 bg-white text-black px-4 py-2"
+            className="mt-1 w-full rounded-lg border border-white/16 bg-white/[0.08] px-4 py-2 text-white"
             required
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-white">
+          <label className="block text-sm font-bold text-white/70">
             Password *
           </label>
           <input
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="mt-1 w-full rounded-lg border-2 bg-white text-black px-4 py-2"
+            className="mt-1 w-full rounded-lg border border-white/16 bg-white/[0.08] px-4 py-2 text-white"
             required
           />
         </div>
@@ -88,7 +99,7 @@ export default function AdminLoginForm() {
         <button
           type="submit"
           disabled={loading}
-          className="w-full mt-4 bg-[#e98b33] cursor-pointer hover:bg-[#e4aa3f] text-white py-3 rounded-lg font-bold disabled:opacity-50"
+          className="w-full mt-4 bg-[#a71d18] cursor-pointer hover:bg-[#861713] text-white py-3 rounded-lg font-bold disabled:opacity-50"
         >
           {loading ? "Logging in..." : "Admin Login"}
         </button>

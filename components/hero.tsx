@@ -1,80 +1,63 @@
-// components/hero.tsx
-"use client";
-
-import { useEffect, useState } from "react";
 import Image from "next/image";
-
-type Slide = {
-  src: string;
-  alt: string;
-};
-
-const slides: Slide[] = [
-  { src: "/hero1.jpg", alt: "Happy dog" },
-  { src: "/hero2.jpeg", alt: "Cute cat" },
-  { src: "/hero3.jpg", alt: "Pet care" },
-];
+import Link from "next/link";
 
 export default function Hero() {
-  const [current, setCurrent] = useState<number>(0);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrent((prev) => (prev + 1) % slides.length);
-    }, 4000);
-    return () => clearInterval(interval);
-  }, []);
-
   return (
-    <div className="relative w-full h-125 md:h-150 overflow-hidden">
-      {/* Slides */}
-      <div
-        className="flex h-full transition-transform duration-700 ease-in-out"
-        style={{ transform: `translateX(-${current * 100}%)` }}
-      >
-        {slides.map((slide, index) => (
-          <div key={index} className="relative min-w-full h-full">
+    <section className="relative isolate min-h-[760px] overflow-hidden text-white md:min-h-[calc(100vh+24px)]">
+      <div className="relative mx-auto grid min-h-[760px] w-full max-w-7xl grid-cols-1 items-center gap-6 px-6 pb-20 pt-32 md:min-h-[calc(100vh+24px)] md:grid-cols-[0.92fr_1.08fr] md:pb-24 md:pt-24 lg:px-10">
+        <div className="z-20 max-w-2xl">
+          <h1 className="max-w-3xl text-[clamp(3.2rem,8vw,6.7rem)] font-black leading-[0.9] tracking-normal text-white">
+            Every pet deserves a <span className="text-[#4f8f11]">home.</span>
+          </h1>
+
+          <p className="mt-7 max-w-xl text-base font-medium leading-8 text-white/60 md:text-lg">
+            Yuvaya Gel brings shelter cats and dogs into one calm adoption
+            space. Browse real profiles, save your favorites, ask questions, and
+            continue the adoption journey with the shelter team.
+          </p>
+
+          <div className="mt-9 flex flex-wrap gap-3">
+            <Link
+              href="/pets"
+              className="inline-flex items-center justify-center rounded-full bg-[#4f8f11] px-8 py-3 text-sm font-extrabold text-white shadow-[0_18px_42px_rgba(167,29,24,0.32)] transition hover:bg-[#355e0c]"
+            >
+              Meet Our Pets
+            </Link>
+            <Link
+              href="/about"
+              className="inline-flex items-center justify-center rounded-full border border-white/15 bg-white/[0.07] px-8 py-3 text-sm font-extrabold text-white/75 backdrop-blur-md transition hover:bg-white/[0.12] hover:text-white"
+            >
+              How It Works
+            </Link>
+          </div>
+        </div>
+
+        <div className="relative z-10 min-h-[420px] md:min-h-[680px]">
+          <div className="absolute bottom-[-10px] right-[-1%] h-[44%] w-[92%] rounded-t-full bg-gradient-to-t from-[#fff4c7]/12 via-[#fff4c7]/5 to-transparent blur-sm" />
+
+          <div className="absolute bottom-[8px] right-[-8%] h-[94%] w-[70%] md:right-[-3%]">
             <Image
-              src={slide.src}
-              alt={slide.alt}
+              src="/dog-hero.png"
+              alt="Dog ready for adoption"
               fill
-              className="object-cover"
-              priority={index === 0}
+              sizes="(min-width: 768px) 48vw, 78vw"
+              className="object-contain object-bottom drop-shadow-[0_32px_42px_rgba(0,0,0,0.38)]"
+              priority
             />
           </div>
-        ))}
-      </div>
 
-      {/* Overlay + content */}
-      <div className="absolute inset-0 bg-black/40 flex flex-col items-center justify-center gap-6">
-        <h1 className="text-white text-4xl md:text-6xl font-extrabold tracking-tight">
-          Yuvaya Gel
-        </h1>
-        <p className="text-white/90 text-lg md:text-xl max-w-xl text-center">
-          Find your new best friend – every pet deserves a loving home.
-        </p>
-        <a
-          href="#pets"
-          className="inline-block bg-[#e98b33] hover:bg-[#e4aa3f] text-white px-8 py-3 rounded-full font-semibold transition-colors"
-        >
-          Meet Our Pets
-        </a>
+          <div className="absolute bottom-[8px] left-[2%] h-[68%] w-[62%] md:left-[-3%]">
+            <Image
+              src="/cat-hero.png"
+              alt="Cat ready for adoption"
+              fill
+              sizes="(min-width: 768px) 42vw, 72vw"
+              className="object-contain object-bottom drop-shadow-[0_30px_38px_rgba(0,0,0,0.34)]"
+              priority
+            />
+          </div>
+        </div>
       </div>
-
-      {/* Dot indicators */}
-      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2">
-        {slides.map((_, index) => (
-          <button
-            key={index}
-            onClick={() => setCurrent(index)}
-            className={`w-3 h-3 rounded-full transition-colors ${
-              current === index
-                ? "bg-[#e98b33]"
-                : "bg-white/50 hover:bg-white/80"
-            }`}
-          />
-        ))}
-      </div>
-    </div>
+    </section>
   );
 }

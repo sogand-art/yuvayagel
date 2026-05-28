@@ -1,16 +1,12 @@
-/* eslint-disable @next/next/no-img-element */
 "use client";
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Logo from "../logo";
-import {
-  signInWithEmailAndPassword,
-  GoogleAuthProvider,
-  signInWithPopup,
-} from "firebase/auth";
-import { doc, setDoc, serverTimestamp } from "firebase/firestore";
-import { auth, db } from "@/lib/firebase";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "@/lib/firebase";
+import Image from "next/image";
+import Link from "next/link";
 
 export default function LoginForm() {
   const router = useRouter();
@@ -26,87 +22,80 @@ export default function LoginForm() {
 
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      router.push("/");
-    } catch (err) {
+      const redirect =
+        new URLSearchParams(window.location.search).get("redirect") || "/";
+      router.push(redirect);
+    } catch {
       setError("Invalid email or password");
     } finally {
       setLoading(false);
     }
   };
 
-  const handleGoogleLogin = async () => {
-    setError("");
-    setLoading(true);
-
-    try {
-      const provider = new GoogleAuthProvider();
-      provider.setCustomParameters({ prompt: "select_account" });
-
-      const userCredential = await signInWithPopup(auth, provider);
-      const user = userCredential.user;
-
-      const email = user.email;
-      if (!email) throw new Error("Google account missing email");
-
-      const fullName = user.displayName?.split(" ") ?? [];
-      const firstName = fullName.length > 0 ? fullName[0] : "";
-      const lastName = fullName.length > 1 ? fullName.slice(1).join(" ") : "";
-
-      const userRef = doc(db, "Users", email);
-
-      await setDoc(
-        userRef,
-        {
-          email: email,
-          ad: firstName,
-          soyad: lastName,
-          provider: "google",
-          createdAt: serverTimestamp(),
-          updatedAt: serverTimestamp(),
-        },
-        { merge: true },
-      );
-
-      router.push("/");
-    } catch (err) {
-      console.error(err);
-      setError("Google Sign-In Failed");
-    } finally {
-      setLoading(false);
-    }
-  };
-
   return (
-    <div className="flex-1 flex flex-col justify-center items-center p-8 md:p-16 bg-green-900">
-      <Logo className="w-64 mb-8" height={140} width={140} />
+    <div className="brand-page-bg flex-1 flex flex-col justify-center items-center p-8 md:p-16">
+      <div className="mb-5 flex items-center -space-x-3">
+        <Link href="/" className="block">
+          <span className="relative h-[140px] w-[140px] rounded-full border-4 border-[#fff4c7] bg-[#f3edd4] block">
+            <Image
+              src="/logo.png"
+              alt="Z Piekla Do Domu partner logo"
+              fill
+              className="object-contain p-3"
+              sizes="140px"
+            />
+          </span>
+        </Link>
 
-      <form onSubmit={handleLogin} className="w-full max-w-md space-y-4">
+        <Link href="/" className="block">
+          <span className="relative h-[140px] w-[140px] rounded-full border-4 border-[#79c617] bg-[#ffffff] block">
+            <Image
+              src="/logo2.png"
+              alt="Leben in Not e.V. partner logo"
+              fill
+              className="object-contain p-3"
+              sizes="140px"
+            />
+          </span>
+        </Link>
+      </div>
+
+      <form
+        onSubmit={handleLogin}
+        className="w-full max-w-md space-y-4 rounded-2xl border border-white/12 bg-white/[0.075] p-6 text-white shadow-[0_24px_60px_rgba(0,0,0,0.28)] backdrop-blur-xl"
+      >
         <div>
-          <label className="block text-sm font-medium text-white">
+          <p className="text-sm font-extrabold uppercase tracking-[0.18em] text-[#79c617]">
+            Welcome back
+          </p>
+          <h1 className="mt-1 text-2xl font-extrabold text-white">Login</h1>
+        </div>
+        <div>
+          <label className="block text-sm font-bold text-white/70">
             Email *
           </label>
           <input
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="mt-1 w-full rounded-lg border-2 bg-white text-black px-4 py-2"
+            className="mt-1 w-full rounded-lg border border-white/16 bg-white/[0.08] px-4 py-2 text-white placeholder-white/45"
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-white">
+          <label className="block text-sm font-bold text-white/70">
             Password *
           </label>
           <input
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="mt-1 w-full rounded-lg border-2 bg-white text-black px-4 py-2"
+            className="mt-1 w-full rounded-lg border border-white/16 bg-white/[0.08] px-4 py-2 text-white"
           />
 
           <a
             href="/forgot-password"
-            className="inline-block text-blue-500 font-bold hover:underline mt-2"
+            className="inline-block text-white/68 font-bold hover:text-white hover:underline mt-2"
           >
             Forgot password
           </a>
@@ -117,21 +106,21 @@ export default function LoginForm() {
         <button
           type="submit"
           disabled={loading}
-          className="w-full mt-4 bg-[#e98b33] cursor-pointer hover:bg-[#e4aa3f] text-white py-3 rounded-lg font-bold disabled:opacity-50"
+          className="w-full mt-4 bg-[#a71d18] cursor-pointer hover:bg-[#861713] text-white py-3 rounded-lg font-bold disabled:opacity-50"
         >
           {loading ? "Logging in..." : "Login"}
         </button>
 
-        <div className="my-5 flex items-center w-full">
-          <div className="grow border-t border-white opacity-30"></div>
-          <span className="mx-4 text-white font-semibold">OR</span>
-          <div className="grow border-t border-white opacity-30"></div>
-        </div>
+        {/* <div className="my-5 flex items-center w-full">
+          <div className="grow border-t border-white/12"></div>
+          <span className="mx-4 text-white/45 font-semibold">OR</span>
+          <div className="grow border-t border-white/12"></div>
+        </div> */}
       </form>
 
-      <p className="mt-6 text-lg text-white">
+      <p className="mt-6 text-lg text-white/72">
         Not a member?{" "}
-        <a href="/signup" className="text-blue-500 font-bold hover:underline">
+        <a href="/signup" className="text-white font-bold hover:underline">
           Sign Up
         </a>
       </p>

@@ -4,10 +4,10 @@ import EmailForm from "../../components/EmailForm";
 
 export default function Home() {
   return (
-    <>
+    <div className="overflow-hidden">
       <Hero />
       <PetCategories />
-      <EmailForm></EmailForm>
-    </>
+      <EmailForm />
+    </div>
   );
 }

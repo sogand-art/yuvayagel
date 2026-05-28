@@ -78,7 +78,9 @@ export default function UserChatPage() {
   const handleSend = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (conversation?.status === "finished") return;
+    const isFinished = conversation?.status === "finished";
+
+    if (isFinished) return;
 
     if (!newMsg.trim()) return;
 
@@ -98,27 +100,32 @@ export default function UserChatPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-green-900 flex items-center justify-center">
-        <p className="text-white text-xl">Loading conversation…</p>
+      <div className="brand-page-bg min-h-screen flex items-center justify-center">
+        <p className="text-[#37357f] text-xl font-semibold">
+          Loading conversation...
+        </p>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-green-900 py-8 px-4">
+    <div className="brand-page-bg min-h-screen py-8 px-4">
       <div className="max-w-2xl mx-auto flex flex-col h-[90vh]">
         <div className="flex items-center gap-4 mb-4">
-          <Link href="/my-messages" className="text-[#e98b33] hover:underline">
+          <Link
+            href="/my-messages"
+            className="text-[#a71d18] hover:underline font-bold"
+          >
             ← My Messages
           </Link>
-          <h1 className="text-2xl font-bold text-white">
+          <h1 className="text-2xl font-bold text-[#171717]">
             Chat about {conversation?.petName || "Pet"}
           </h1>
         </div>
         {conversation?.conversationType === "adoption" && (
-          <div className="bg-white/10 backdrop-blur-md rounded-2xl border border-white/20 p-4 mb-4">
+          <div className="rounded-2xl border-4 border-[#37357f]/15 bg-white p-4 mb-4 shadow-md">
             <div className="flex gap-4 items-center">
-              <div className="w-28 h-28 rounded-xl overflow-hidden bg-gray-800 flex items-center justify-center">
+              <div className="w-28 h-28 rounded-xl overflow-hidden bg-[#37357f] flex items-center justify-center">
                 {conversation?.petImage ? (
                   <img
                     src={conversation.petImage}
@@ -126,22 +133,22 @@ export default function UserChatPage() {
                     className="w-full h-full object-cover"
                   />
                 ) : (
-                  <span className="text-4xl text-white/50">🐾</span>
+                  <span className="text-white/70 font-bold">Paw</span>
                 )}
               </div>
 
               <div>
-                <h2 className="text-2xl font-bold text-white">
+                <h2 className="text-2xl font-bold text-[#171717]">
                   {conversation?.petName}
                 </h2>
 
-                <p className="text-white/70">{conversation?.petBreed}</p>
+                <p className="text-[#171717]/70">{conversation?.petBreed}</p>
 
-                <p className="text-white/60 text-sm capitalize">
+                <p className="text-[#37357f]/70 text-sm capitalize">
                   {conversation?.petSpecies}
                 </p>
 
-                <p className="text-white/60 text-sm">
+                <p className="text-[#37357f]/70 text-sm">
                   {Math.floor((conversation?.petAge || 0) / 12)} years{" "}
                   {(conversation?.petAge || 0) % 12} months
                 </p>
@@ -152,7 +159,7 @@ export default function UserChatPage() {
 
         {/* Scheduled Appointment Banner */}
         {conversation?.status === "finished" && (
-          <div className="bg-red-600 text-white px-4 py-3 rounded-xl mb-4">
+          <div className="bg-[#a71d18] text-white px-4 py-3 rounded-xl mb-4">
             🔒 This conversation has been closed.
           </div>
         )}
@@ -163,16 +170,22 @@ export default function UserChatPage() {
               <span>
                 Appointment scheduled for{" "}
                 <strong>
-                  {new Date(
-                    conversation.scheduledTime.seconds * 1000,
-                  ).toLocaleString()}
+                  {conversation.scheduledTime.toDate().toLocaleString()}
                 </strong>
               </span>
             </div>
           )}
 
         {/* Messages list */}
-        <div className="flex-1 overflow-y-auto bg-white/5 rounded-xl p-4 space-y-4 mb-4">
+        <div className="flex-1 overflow-y-auto rounded-2xl border-2 border-[#37357f]/15 bg-white/80 p-4 space-y-4 mb-4">
+          {conversation?.scheduledTime && messages.length > 0 && (
+            <div className="flex justify-center">
+              <div className="bg-[#37357f]/10 text-[#37357f] text-sm px-4 py-2 rounded-full">
+                📅 Meeting scheduled for{" "}
+                {conversation.scheduledTime.toDate().toLocaleString()}
+              </div>
+            </div>
+          )}
           {messages.map((msg) => (
             <div
               key={msg.id}
@@ -181,8 +194,8 @@ export default function UserChatPage() {
               <div
                 className={`max-w-[75%] px-4 py-2 rounded-xl ${
                   msg.sender === "user"
-                    ? "bg-[#e98b33] text-white"
-                    : "bg-white/20 text-white"
+                    ? "bg-[#4f8f11] text-white"
+                    : "bg-[#37357f] text-white"
                 }`}
               >
                 <p className="text-sm">{msg.text}</p>
@@ -200,7 +213,7 @@ export default function UserChatPage() {
 
         {/* Input */}
         {conversation?.status === "finished" ? (
-          <div className="bg-red-500/20 border border-red-400/30 text-red-200 rounded-xl p-4 text-center">
+          <div className="bg-[#a71d18] text-white rounded-xl p-4 text-center">
             This conversation has been closed.
           </div>
         ) : (
@@ -209,12 +222,12 @@ export default function UserChatPage() {
               type="text"
               value={newMsg}
               onChange={(e) => setNewMsg(e.target.value)}
-              placeholder="Type your message…"
+              placeholder="Type your message..."
               className="flex-1 px-4 py-2 rounded-lg bg-white text-black"
             />
             <button
               type="submit"
-              className="bg-[#e98b33] hover:bg-[#e4aa3f] text-white px-6 py-2 rounded-lg font-semibold"
+              className="bg-[#4f8f11] hover:bg-[#3a6b0d] text-white px-6 py-2 rounded-lg font-bold"
             >
               Send
             </button>

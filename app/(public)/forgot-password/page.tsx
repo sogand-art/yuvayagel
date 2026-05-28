@@ -57,20 +57,23 @@ export default function ForgotPasswordPage() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-green-900 p-6 overflow-hidden">
+    <div className="brand-page-bg min-h-screen flex flex-col items-center justify-center p-6 overflow-hidden">
       <Logo className="w-64 mb-8" height={140} width={140} />
 
       <h1 className="text-3xl font-bold text-white mb-2">
         Forgot Your Password?
       </h1>
 
-      <p className="text-white/80 text-center max-w-md mb-6">
+      <p className="text-white/68 text-center max-w-md mb-6">
         Enter your email and we’ll send you a reset link.
       </p>
 
-      <form onSubmit={handleReset} className="w-full max-w-md space-y-4">
+      <form
+        onSubmit={handleReset}
+        className="w-full max-w-md space-y-4 rounded-2xl border border-white/12 bg-white/[0.075] p-6 text-white shadow-[0_24px_60px_rgba(0,0,0,0.28)] backdrop-blur-xl"
+      >
         <div>
-          <label className="block text-sm font-medium text-white">
+          <label className="block text-sm font-bold text-white/70">
             Email *
           </label>
 
@@ -78,14 +81,14 @@ export default function ForgotPasswordPage() {
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="mt-1 w-full rounded-lg border-2 bg-white text-black px-4 py-2"
+            className="mt-1 w-full rounded-lg border border-white/16 bg-white/[0.08] px-4 py-2 text-white"
           />
         </div>
 
         <button
           type="submit"
           disabled={loading}
-          className="w-full mt-4 bg-[#e98b33] hover:bg-[#e4aa3f] text-white py-3 rounded-lg font-bold disabled:opacity-60"
+          className="w-full mt-4 bg-[#a71d18] hover:bg-[#861713] text-white py-3 rounded-lg font-bold disabled:opacity-60"
         >
           {loading ? "Sending..." : "Send Reset Link"}
         </button>
@@ -93,7 +96,7 @@ export default function ForgotPasswordPage() {
         <div className="text-center">
           <Link
             href="/login"
-            className="text-blue-500 font-bold hover:underline"
+            className="text-white/72 font-bold hover:text-white hover:underline"
           >
             Login Now
           </Link>

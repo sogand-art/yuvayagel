@@ -67,19 +67,25 @@ export default function PetList() {
   };
 
   if (loading) {
-    return <p className="text-white text-center">Loading pets…</p>;
+    return (
+      <p className="text-[#37357f] text-center font-semibold">
+        Loading pets...
+      </p>
+    );
   }
 
   return (
     <div className="space-y-4">
-      <h2 className="text-2xl font-semibold text-white">All Pets</h2>
-      {pets.length === 0 && <p className="text-white/70">No pets added yet.</p>}
+      <h2 className="text-2xl font-extrabold text-[#37357f]">All Pets</h2>
+      {pets.length === 0 && (
+        <p className="text-[#37357f]/70">No pets added yet.</p>
+      )}
       {pets.map((pet) => (
         <div
           key={pet.id}
-          className="bg-white/10 backdrop-blur-md p-4 rounded-xl border border-white/20 flex gap-4 items-start"
+          className="flex items-start gap-4 rounded-2xl border-2 border-[#37357f]/15 bg-white p-4 shadow-md"
         >
-          <div className="relative w-24 h-24 rounded-lg overflow-hidden bg-gray-700 shrink-0">
+          <div className="relative w-24 h-24 rounded-xl overflow-hidden bg-[#37357f] shrink-0">
             {pet.imageUrl ? (
               // eslint-disable-next-line @next/next/no-img-element
               <img
@@ -95,32 +101,32 @@ export default function PetList() {
                     "items-center",
                     "justify-center",
                   );
-                  target.parentElement!.innerHTML = "🐾";
+                  target.parentElement!.innerHTML = "Paw";
                 }}
               />
             ) : (
-              <div className="w-full h-full flex items-center justify-center text-white/50 text-2xl">
-                🐾
+              <div className="w-full h-full flex items-center justify-center text-white/70 text-sm font-bold">
+                Paw
               </div>
             )}
           </div>
 
           <div className="flex-1 min-w-0">
-            <h3 className="text-lg font-bold text-white">
+            <h3 className="text-lg font-bold text-[#171717]">
               {pet.name} ({pet.species})
             </h3>
-            <p className="text-white/80 text-sm">Breed: {pet.breed}</p>
-            <p className="text-white/80 text-sm">
+            <p className="text-[#171717]/75 text-sm">Breed: {pet.breed}</p>
+            <p className="text-[#171717]/75 text-sm">
               Age: {Math.floor(pet.age / 12)} years {pet.age % 12} months
             </p>
-            <p className="text-white/80 text-sm">
-              Medical: {pet.medicalStatus || "—"}
+            <p className="text-[#171717]/75 text-sm">
+              Medical: {pet.medicalStatus || "-"}
             </p>
             <p
               className={`text-sm font-semibold ${
                 pet.availability === "available"
-                  ? "text-green-300"
-                  : "text-yellow-300"
+                  ? "text-[#4f8f11]"
+                  : "text-[#a71d18]"
               }`}
             >
               {pet.availability}
@@ -130,13 +136,13 @@ export default function PetList() {
           <div className="flex flex-col gap-2 shrink-0">
             <button
               onClick={() => handleAdopt(pet.id!)}
-              className="text-green-300 text-sm font-medium hover:underline"
+              className="text-[#4f8f11] text-sm font-bold cursor-pointer hover:underline"
             >
               Adopted
             </button>
             <button
               onClick={() => handleDelete(pet.id!)}
-              className="text-red-300 text-sm font-medium hover:underline"
+              className="text-[#a71d18] text-sm font-bold cursor-pointer hover:underline"
             >
               Delete
             </button>

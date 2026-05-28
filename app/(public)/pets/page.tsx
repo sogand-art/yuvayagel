@@ -3,7 +3,7 @@
 // app/(public)/pets/page.tsx
 "use client";
 
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 
@@ -35,7 +35,7 @@ type Pet = {
   availability: string;
 };
 
-export default function PublicPetsPage() {
+function PublicPetsContent() {
   const searchParams = useSearchParams();
 
   const [pets, setPets] = useState<Pet[]>([]);
@@ -137,22 +137,27 @@ export default function PublicPetsPage() {
     filter === "all" ? pets : pets.filter((pet) => pet.species === filter);
 
   return (
-    <div className="min-h-screen bg-green-900 py-12 px-4 md:px-8">
+    <div className="brand-page-bg min-h-screen py-12 px-4 md:px-8">
       <div className="max-w-7xl mx-auto">
-        <h1 className="text-3xl md:text-4xl font-bold text-white mb-8 text-center">
-          Meet Our Pets
-        </h1>
+        <div className="mb-8 text-center">
+          <p className="text-sm font-extrabold uppercase tracking-[0.18em] text-[#79c617]">
+            Available companions
+          </p>
+          <h1 className="mt-2 text-3xl md:text-5xl font-extrabold text-[#171717]">
+            Meet Our Pets
+          </h1>
+        </div>
 
         {/* Filter buttons */}
-        <div className="flex justify-center gap-3 mb-10">
+        <div className="flex justify-center gap-3 mb-10 ">
           {(["all", "dog", "cat"] as const).map((option) => (
             <button
               key={option}
               onClick={() => setFilter(option)}
-              className={`px-6 py-2 rounded-full font-semibold transition-colors ${
+              className={`px-6 py-2 rounded-full font-semibold cursor-pointer transition-colors ${
                 filter === option
-                  ? "bg-[#e98b33] text-white"
-                  : "bg-white/10 text-white hover:bg-white/20"
+                  ? "bg-[#37357f] text-white shadow-md"
+                  : "border-2 border-[#37357f]/20 bg-white text-[#37357f] hover:border-[#79c617]"
               }`}
             >
               {option === "all" ? "All" : option === "dog" ? "Dogs" : "Cats"}
@@ -161,9 +166,11 @@ export default function PublicPetsPage() {
         </div>
 
         {loading ? (
-          <p className="text-white text-center text-lg">Loading pets…</p>
+          <p className="text-[#37357f] text-center text-lg font-semibold">
+            Loading pets...
+          </p>
         ) : filteredPets.length === 0 ? (
-          <p className="text-white/70 text-center text-lg">
+          <p className="text-[#37357f]/70 text-center text-lg">
             No pets found
             {filter !== "all" ? ` in ${filter}s` : ""}.
           </p>
@@ -173,38 +180,20 @@ export default function PublicPetsPage() {
               <Link
                 key={pet.id}
                 href={`/pets/${pet.id}`}
-                className="block bg-white/10 backdrop-blur-md rounded-2xl border border-white/20 overflow-hidden shadow-lg hover:shadow-xl transition-shadow"
+                className="block overflow-hidden rounded-[1.75rem] border-4 border-[#37357f]/15 bg-white shadow-lg transition hover:-translate-y-1 hover:border-[#79c617] hover:shadow-xl"
               >
                 {/* Image */}
-                <div className="relative w-full h-56 bg-gray-700 overflow-hidden">
+                <div className="relative w-full h-56 overflow-hidden">
                   {pet.imageUrl ? (
                     <img
                       src={pet.imageUrl}
                       alt={pet.name}
-                      className="w-full h-full object-cover"
+                      className="w-full h-full object-contain"
                       loading="lazy"
-                      onError={(e) => {
-                        const target = e.target as HTMLImageElement;
-
-                        target.style.display = "none";
-
-                        const parent = target.parentElement;
-
-                        if (parent) {
-                          parent.classList.add(
-                            "flex",
-                            "items-center",
-                            "justify-center",
-                          );
-
-                          parent.innerHTML =
-                            '<span class="text-white/50 text-4xl">🐾</span>';
-                        }
-                      }}
                     />
                   ) : (
-                    <div className="w-full h-full flex items-center justify-center text-white/50 text-4xl">
-                      🐾
+                    <div className="w-full h-full flex items-center justify-center text-[#37357f]/60 text-xl font-bold">
+                      Paw
                     </div>
                   )}
                 </div>
@@ -218,36 +207,41 @@ export default function PublicPetsPage() {
                         e.preventDefault();
                         toggleLike(pet.id);
                       }}
-                      className="text-2xl hover:scale-110 transition-transform"
+                      className="rounded-full bg-[#fff4c7] px-3 py-1 text-xl hover:scale-110 transition-transform"
+                      aria-label={
+                        likedPets.includes(pet.id)
+                          ? `Unlike ${pet.name}`
+                          : `Like ${pet.name}`
+                      }
                     >
                       {likedPets.includes(pet.id) ? "❤️" : "🤍"}
                     </button>
                   </div>
 
-                  <h2 className="text-xl font-bold text-white flex items-center gap-2">
+                  <h2 className="text-xl font-bold text-[#171717] flex items-center gap-2">
                     {pet.name}
 
-                    <span className="text-sm font-normal text-white/60">
+                    <span className="rounded-full bg-[#79c617]/20 px-2 py-0.5 text-sm font-bold text-[#37357f]">
                       ({pet.species})
                     </span>
                   </h2>
 
-                  <p className="text-white/80 text-sm mt-1">
+                  <p className="text-[#171717]/75 text-sm mt-3">
                     <span className="font-medium">Breed:</span> {pet.breed}
                   </p>
 
-                  <p className="text-white/80 text-sm">
+                  <p className="text-[#171717]/75 text-sm">
                     <span className="font-medium">Age:</span>{" "}
                     {Math.floor(pet.age / 12)} years {pet.age % 12} months
                   </p>
 
-                  <p className="text-white/80 text-sm">
+                  <p className="text-[#171717]/75 text-sm">
                     <span className="font-medium">Medical:</span>{" "}
                     {pet.medicalStatus || "—"}
                   </p>
 
                   {pet.description && (
-                    <p className="text-white/60 text-sm mt-2 line-clamp-2">
+                    <p className="text-[#171717]/55 text-sm mt-2 line-clamp-2">
                       {pet.description}
                     </p>
                   )}
@@ -258,5 +252,21 @@ export default function PublicPetsPage() {
         )}
       </div>
     </div>
+  );
+}
+
+export default function PublicPetsPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="brand-page-bg min-h-screen py-12 px-4 md:px-8">
+          <p className="text-center text-lg font-semibold text-[#37357f]">
+            Loading pets...
+          </p>
+        </div>
+      }
+    >
+      <PublicPetsContent />
+    </Suspense>
   );
 }

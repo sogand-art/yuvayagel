@@ -97,13 +97,13 @@ export default function EmailForm() {
   };
 
   return (
-    <section className="w-full py-16 px-6 bg-white">
-      <div className="max-w-3xl mx-auto bg-green-900 rounded-2xl p-8 md:p-12 shadow-xl">
+    <section className="relative w-full overflow-hidden px-6 py-16 text-white md:py-20">
+      <div className="brand-dark-bg relative mx-auto max-w-3xl rounded-[2rem] border border-white/10 p-8 shadow-[0_28px_70px_rgba(0,0,0,0.32)] md:p-12">
         <h2 className="text-3xl font-bold text-white mb-4 text-center">
           Send Us a Message
         </h2>
-        <p className="text-center text-white/80 mb-8">
-          Drop us a message – we’d love to hear from you!
+        <p className="text-center text-[#fff4c7] mb-8">
+          Drop us a message. We would love to hear from you.
         </p>
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
@@ -114,7 +114,7 @@ export default function EmailForm() {
             onChange={(e) => setFormData({ ...formData, name: e.target.value })}
             required
             disabled={!!currentUser}
-            className="p-3 rounded-lg border border-white/20 bg-white/10 text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-[#e98b33] disabled:bg-gray-200 disabled:text-gray-500 disabled:cursor-not-allowed"
+            className="rounded-xl border-2 border-[#fff4c7]/30 bg-white/10 p-3 text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-[#79c617] disabled:bg-gray-200 disabled:text-gray-500 disabled:cursor-not-allowed"
           />
 
           <input
@@ -126,7 +126,7 @@ export default function EmailForm() {
             }
             required
             disabled={!!currentUser}
-            className="p-3 rounded-lg border border-white/20 bg-white/10 text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-[#e98b33] disabled:bg-gray-200 disabled:text-gray-500 disabled:cursor-not-allowed"
+            className="rounded-xl border-2 border-[#fff4c7]/30 bg-white/10 p-3 text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-[#79c617] disabled:bg-gray-200 disabled:text-gray-500 disabled:cursor-not-allowed"
           />
 
           <textarea
@@ -137,20 +137,20 @@ export default function EmailForm() {
               setFormData({ ...formData, message: e.target.value })
             }
             required
-            className="p-3 rounded-lg border border-white/20 bg-white/10 text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-[#e98b33] resize-none"
+            className="resize-none rounded-xl border-2 border-[#fff4c7]/30 bg-white/10 p-3 text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-[#79c617]"
           ></textarea>
 
           <button
             type="submit"
             disabled={sending}
-            className="bg-[#e98b33] text-white font-semibold py-3 rounded-lg hover:bg-[#e4aa3f] transition-colors disabled:opacity-50"
+            className="rounded-xl py-3 font-bold text-white transition-colors bg-[#4f8f11] hover:bg-[#355e0c] disabled:opacity-50"
           >
             {sending ? "Sending..." : "Send Message"}
           </button>
 
           {formStatus === "error" && (
             <p className="text-red-300 text-sm text-center">
-              ❌ Failed to send. Please try again.
+              Failed to send. Please try again.
             </p>
           )}
         </form>

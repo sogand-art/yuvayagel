@@ -98,19 +98,19 @@ export default function MyMessagesPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-green-900 flex items-center justify-center">
-        <p className="text-white">Loading…</p>
+      <div className="brand-page-bg min-h-screen flex items-center justify-center">
+        <p className="text-[#37357f] font-semibold">Loading...</p>
       </div>
     );
   }
 
   if (error) {
     return (
-      <div className="min-h-screen bg-green-900 flex flex-col items-center justify-center gap-4">
+      <div className="brand-page-bg min-h-screen flex flex-col items-center justify-center gap-4">
         <p className="text-red-400">{error}</p>
         <button
           onClick={() => window.location.reload()}
-          className="bg-[#e98b33] text-white px-4 py-2 rounded-lg"
+          className="bg-[#a71d18] text-white px-4 py-2 rounded-lg font-bold"
         >
           Retry
         </button>
@@ -119,24 +119,26 @@ export default function MyMessagesPage() {
   }
 
   return (
-    <div className="min-h-screen bg-green-900 py-12 px-4">
+    <div className="brand-page-bg min-h-screen py-12 px-4">
       <div className="max-w-2xl mx-auto">
-        <h1 className="text-3xl font-bold text-white mb-8">My Messages</h1>
+        <h1 className="text-3xl font-extrabold text-[#171717] mb-8">
+          My Messages
+        </h1>
         {convs.length === 0 ? (
-          <p className="text-white/70">No conversations yet.</p>
+          <p className="text-[#37357f]/70">No conversations yet.</p>
         ) : (
           <div className="space-y-4">
             {convs.map((conv) => (
               <Link
                 key={conv.id}
                 href={`/messages/${conv.id}`}
-                className="block bg-white/10 p-4 rounded-xl hover:bg-white/20 transition"
+                className="block rounded-2xl border-2 border-[#37357f]/15 bg-white p-4 shadow-md transition hover:border-[#79c617]"
               >
-                <p className="text-white font-semibold">{conv.petName}</p>
-                <p className="text-white/60 text-sm capitalize">
+                <p className="text-[#171717] font-semibold">{conv.petName}</p>
+                <p className="text-[#37357f]/70 text-sm capitalize">
                   {conv.status}
                 </p>
-                <p className="text-white/50 text-xs">
+                <p className="text-[#171717]/50 text-xs">
                   Last updated: {conv.updatedAt.toDate().toLocaleDateString()}
                 </p>
               </Link>

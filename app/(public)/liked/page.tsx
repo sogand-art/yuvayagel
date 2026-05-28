@@ -3,6 +3,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { auth, db } from "@/lib/firebase";
 import { onAuthStateChanged } from "firebase/auth";
 import {
@@ -23,12 +24,16 @@ type Pet = {
 };
 
 export default function LikedPetsPage() {
+  const router = useRouter();
   const [pets, setPets] = useState<Pet[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, async (user) => {
-      if (!user) return;
+      if (!user) {
+        router.replace("/login?redirect=/liked");
+        return;
+      }
 
       const likesQuery = query(
         collection(db, "likedPets"),
@@ -57,31 +62,35 @@ export default function LikedPetsPage() {
     });
 
     return () => unsub();
-  }, []);
+  }, [router]);
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-green-900 flex items-center justify-center text-white">
+      <div className="brand-page-bg min-h-screen flex items-center justify-center text-[#37357f] font-semibold">
         Loading...
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-green-900 p-6">
-      <h1 className="text-4xl font-bold text-white mb-8">❤️ Liked Pets</h1>
+    <div className="brand-page-bg min-h-screen p-6">
+      <h1 className="text-4xl font-extrabold text-[#171717] mb-8">
+        Liked Pets
+      </h1>
 
       {pets.length === 0 ? (
-        <p className="text-white/70">You haven&apos;t liked any pets yet.</p>
+        <p className="text-[#37357f]/70">
+          You haven&apos;t liked any pets yet.
+        </p>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-5 gap-6">
           {pets.map((pet) => (
             <Link
               key={pet.id}
               href={`/pets/${pet.id}`}
-              className="block bg-white/10 backdrop-blur-md rounded-2xl border border-white/20 overflow-hidden shadow-lg hover:shadow-xl transition-shadow"
+              className="block overflow-hidden rounded-[1.75rem] border-4 border-[#37357f]/15 bg-white shadow-lg transition hover:-translate-y-1 hover:border-[#79c617] hover:shadow-xl"
             >
-              <div className="relative w-full h-56 bg-gray-800 overflow-hidden flex items-center justify-center">
+              <div className="relative w-full h-56 bg-transparent overflow-hidden flex items-center justify-center">
                 <img
                   src={pet.imageUrl}
                   alt={pet.name}
@@ -90,15 +99,15 @@ export default function LikedPetsPage() {
               </div>
 
               <div className="p-5">
-                <h2 className="text-xl font-bold text-white flex items-center gap-2">
+                <h2 className="text-xl font-bold text-[#171717] flex items-center gap-2">
                   {pet.name}
 
-                  <span className="text-sm font-normal text-white/60">
+                  <span className="rounded-full bg-[#79c617]/20 px-2 py-0.5 text-sm font-bold text-[#37357f]">
                     ({pet.species})
                   </span>
                 </h2>
 
-                <p className="text-white/80 text-sm mt-1">
+                <p className="text-[#171717]/75 text-sm mt-3">
                   <span className="font-medium">Breed:</span> {pet.breed}
                 </p>
               </div>

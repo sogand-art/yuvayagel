@@ -41,30 +41,41 @@ export default function AdminDashboard() {
   }, []);
 
   if (loading) {
-    return <p className="text-white text-lg">Loading statistics…</p>;
+    return (
+      <p className="text-[#37357f] text-lg font-semibold">
+        Loading statistics...
+      </p>
+    );
   }
 
   const cards = [
     { label: "Total Pets", value: stats.total },
-    { label: "🐶 Dogs", value: stats.dogs },
-    { label: "🐱 Cats", value: stats.cats },
-    { label: "✅ Available", value: stats.available },
-    { label: "🏡 Adopted", value: stats.adopted },
+    { label: "Dogs", value: stats.dogs },
+    { label: "Cats", value: stats.cats },
+    { label: "Available", value: stats.available },
+    { label: "Adopted", value: stats.adopted },
   ];
 
   return (
     <div>
-      <h1 className="text-3xl font-bold text-white mb-8">Dashboard</h1>
+      <p className="text-sm font-extrabold uppercase tracking-[0.18em] text-[#37357f]">
+        Shelter operations
+      </p>
+      <h1 className="mt-2 text-3xl font-extrabold text-[#171717] mb-8">
+        Dashboard
+      </h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {cards.map((card) => (
           <div
             key={card.label}
-            className="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl p-6"
+            className="rounded-2xl border-2 border-[#37357f]/15 bg-white p-6 shadow-md"
           >
-            <p className="text-white/80 text-sm uppercase tracking-wide">
+            <p className="text-[#37357f] text-sm font-extrabold uppercase tracking-wide">
               {card.label}
             </p>
-            <p className="text-4xl font-bold text-white mt-2">{card.value}</p>
+            <p className="text-4xl font-extrabold text-[#171717] mt-2">
+              {card.value}
+            </p>
           </div>
         ))}
       </div>

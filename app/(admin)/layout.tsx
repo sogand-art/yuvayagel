@@ -52,8 +52,10 @@ export default function AdminLayout({
   if (loading) {
     if (pathname === "/admin/login") return <>{children}</>;
     return (
-      <div className="min-h-screen flex items-center justify-center bg-green-900">
-        <p className="text-white text-xl">Checking permissions…</p>
+      <div className="brand-page-bg min-h-screen flex items-center justify-center">
+        <p className="text-[#37357f] text-xl font-semibold">
+          Checking permissions...
+        </p>
       </div>
     );
   }
@@ -64,7 +66,7 @@ export default function AdminLayout({
   if (!isAdmin) return null;
 
   return (
-    <div className="flex min-h-screen bg-green-900">
+    <div className="brand-page-bg flex min-h-screen">
       <Sidebar />
       <div className="flex-1 p-6">{children}</div>
     </div>

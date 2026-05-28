@@ -77,11 +77,11 @@ export default function AddPetForm() {
         updatedAt: serverTimestamp(),
       });
 
-      setMessage("✅ Pet added successfully!");
+      setMessage("Pet added successfully!");
       setForm(EMPTY_FORM);
     } catch (err) {
       console.error(err);
-      setMessage("❌ Failed to add pet. Check console for details.");
+      setMessage("Failed to add pet. Check console for details.");
     } finally {
       setLoading(false);
     }
@@ -90,17 +90,17 @@ export default function AddPetForm() {
   return (
     <form
       onSubmit={handleSubmit}
-      className="bg-white/10 backdrop-blur-md p-6 rounded-2xl border border-white/20"
+      className="rounded-2xl border-2 border-[#37357f]/15 bg-white p-6 shadow-md"
     >
-      <h2 className="text-2xl font-semibold text-white mb-6 flex items-center gap-2">
-        <span>🐾</span> Add New Pet
+      <h2 className="text-2xl font-extrabold text-[#37357f] mb-6 flex items-center gap-2">
+        <span className="h-4 w-4 rounded-full bg-[#79c617]" /> Add New Pet
       </h2>
 
       <div className="grid md:grid-cols-2 gap-6">
         {/* Left column */}
         <div className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-white mb-1">
+            <label className="block text-sm font-bold text-[#37357f] mb-1">
               Name *
             </label>
             <input
@@ -115,7 +115,7 @@ export default function AddPetForm() {
 
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="block text-sm font-medium text-white mb-1">
+              <label className="block text-sm font-bold text-[#37357f] mb-1">
                 Species *
               </label>
               <select
@@ -129,7 +129,7 @@ export default function AddPetForm() {
               </select>
             </div>
             <div>
-              <label className="block text-sm font-medium text-white mb-1">
+              <label className="block text-sm font-bold text-[#37357f] mb-1">
                 Breed *
               </label>
               <input
@@ -144,7 +144,7 @@ export default function AddPetForm() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-white mb-1">
+            <label className="block text-sm font-bold text-[#37357f] mb-1">
               Age *
             </label>
             <div className="flex gap-3">
@@ -180,7 +180,7 @@ export default function AddPetForm() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-white mb-1">
+            <label className="block text-sm font-bold text-[#37357f] mb-1">
               Medical Status *
             </label>
             <select
@@ -198,7 +198,7 @@ export default function AddPetForm() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-white mb-1">
+            <label className="block text-sm font-bold text-[#37357f] mb-1">
               Description
             </label>
             <textarea
@@ -213,7 +213,7 @@ export default function AddPetForm() {
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-white mb-2">
+          <label className="block text-sm font-bold text-[#37357f] mb-2">
             Photo URL (optional)
           </label>
           <input
@@ -225,7 +225,7 @@ export default function AddPetForm() {
             className="w-full px-4 py-2 rounded-lg bg-white text-black"
           />
           {form.imageUrl && (
-            <div className="mt-3 relative w-full h-48 rounded-lg overflow-hidden bg-gray-700">
+            <div className="mt-3 relative w-full h-48 rounded-xl overflow-hidden bg-[#37357f]">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={form.imageUrl}
@@ -239,8 +239,7 @@ export default function AddPetForm() {
             </div>
           )}
           {!form.imageUrl && (
-            <div className="mt-3 border-2 border-dashed border-white/40 rounded-xl p-6 text-center text-white/70">
-              <p className="text-4xl mb-2">🖼️</p>
+            <div className="mt-3 rounded-xl border-2 border-dashed border-[#37357f]/25 bg-[#fff9df] p-6 text-center text-[#37357f]/70">
               <p className="font-medium">No image URL provided</p>
               <p className="text-sm">A placeholder will be shown</p>
             </div>
@@ -251,7 +250,9 @@ export default function AddPetForm() {
       {message && (
         <p
           className={`text-sm mt-4 font-medium ${
-            message.startsWith("✅") ? "text-green-300" : "text-red-300"
+            message.startsWith("Pet added")
+              ? "text-[#4f8f11]"
+              : "text-[#a71d18]"
           }`}
         >
           {message}
@@ -260,7 +261,7 @@ export default function AddPetForm() {
       <button
         type="submit"
         disabled={loading}
-        className="w-full mt-6 bg-[#e98b33] hover:bg-[#e4aa3f] text-white py-3 rounded-lg font-bold disabled:opacity-50 transition-colors"
+        className="w-full mt-6 cursor-pointer bg-[#4f8f11] hover:bg-[#355e0c] text-white py-3 rounded-lg font-bold disabled:opacity-50 transition-colors"
       >
         {loading ? "Saving Pet..." : "Add Pet"}
       </button>
