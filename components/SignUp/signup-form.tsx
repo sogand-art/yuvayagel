@@ -36,24 +36,22 @@ export default function SignUpForm() {
     setError("");
 
     if (!name || !email || !password || !repeatPassword) {
-      setError("Fill all required fields");
+      setError("Gerekli tüm alanları doldurun");
       return;
     }
 
     if (!isValidEmail(email)) {
-      setError("Invalid email");
+      setError("Geçersiz e-posta");
       return;
     }
 
     if (password !== repeatPassword) {
-      setError("Passwords do not match");
+      setError("Şifreler eşleşmiyor");
       return;
     }
 
     if (!isValidPassword) {
-      setError(
-        "Password must be at least 6 characters and include one uppercase letter",
-      );
+      setError("Şifre en az 6 karakter olmalı ve bir büyük harf içermelidir");
       return;
     }
 
@@ -112,13 +110,13 @@ export default function SignUpForm() {
       >
         <div>
           <p className="text-sm font-extrabold uppercase tracking-[0.18em] text-[#79c617]">
-            Create your adopter profile
+            Sahiplenici profilinizi oluşturun
           </p>
-          <h1 className="mt-1 text-2xl font-extrabold text-white">Sign Up</h1>
+          <h1 className="mt-1 text-2xl font-extrabold text-white">Kayıt Ol</h1>
         </div>
         <div>
           <label className="block text-sm font-bold text-white/70">
-            Name *
+            İsim *
           </label>
           <input
             type="text"
@@ -131,7 +129,7 @@ export default function SignUpForm() {
 
         <div>
           <label className="block text-sm font-bold text-white/70">
-            Family Name
+            Soyisim
           </label>
           <input
             type="text"
@@ -143,7 +141,7 @@ export default function SignUpForm() {
 
         <div>
           <label className="block text-sm font-bold text-white/70">
-            Email *
+            E-posta *
           </label>
           <input
             type="email"
@@ -156,7 +154,7 @@ export default function SignUpForm() {
 
         <div>
           <label className="block text-sm font-bold text-white/70">
-            Password *
+            Şifre *
           </label>
           <input
             type="password"
@@ -171,26 +169,26 @@ export default function SignUpForm() {
         </div>
 
         <div className="rounded-xl border border-white/10 bg-white/[0.06] p-3 text-sm text-white/70">
-          <p className="font-bold text-white">Password requirements</p>
+          <p className="font-bold text-white">Şifre gereksinimleri</p>
           <p
             className={
               passwordChecks.length ? "text-[#4f8f11]" : "text-[#a71d18]"
             }
           >
-            At least 6 characters
+            En az 6 karakter
           </p>
           <p
             className={
               passwordChecks.uppercase ? "text-[#4f8f11]" : "text-[#a71d18]"
             }
           >
-            At least one uppercase letter
+            En az bir büyük harf
           </p>
         </div>
 
         <div>
           <label className="block text-sm font-bold text-white/70">
-            Confirm Password *
+            Şifreyi Onayla *
           </label>
           <input
             type="password"
@@ -207,7 +205,7 @@ export default function SignUpForm() {
           type="submit"
           className="w-full mt-4 bg-[#a71d18] hover:bg-[#861713] text-white py-3 rounded-lg font-bold"
         >
-          Sign Up
+          Kayıt Ol
         </button>
         {/* <div className="my-5 flex items-center w-full">
           <div className="grow border-t border-white/12"></div>
@@ -217,9 +215,9 @@ export default function SignUpForm() {
       </form>
 
       <p className="mt-6 text-lg text-white/72">
-        Already a member?{" "}
+        Zaten üyey misiniz?{" "}
         <a href="/login" className="text-white font-bold hover:underline">
-          Login
+          Giriş Yap
         </a>
       </p>
     </div>

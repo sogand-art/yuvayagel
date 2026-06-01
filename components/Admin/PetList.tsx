@@ -46,39 +46,39 @@ export default function PetList() {
   }, []);
 
   const handleAdopt = async (id: string) => {
-    if (!confirm("Mark this pet as adopted?")) return;
+    if (!confirm("Bu hayvan sahiplendirildi olarak işaretlensin mi?")) return;
     try {
       await updateDoc(doc(db, "pets", id), {
         availability: "adopted",
         updatedAt: new Date(),
       });
     } catch {
-      alert("Failed to adopt pet.");
+      alert("Hayvan sahiplendirilemedi.");
     }
   };
 
   const handleDelete = async (id: string) => {
-    if (!confirm("Delete this pet permanently?")) return;
+    if (!confirm("Bu hayvan kalıcı olarak silinsin mi?")) return;
     try {
       await deleteDoc(doc(db, "pets", id));
     } catch {
-      alert("Failed to delete pet.");
+      alert("Hayvan silinemedi.");
     }
   };
 
   if (loading) {
     return (
       <p className="text-[#37357f] text-center font-semibold">
-        Loading pets...
+        Evcil hayvanlar yükleniyor...
       </p>
     );
   }
 
   return (
     <div className="space-y-4">
-      <h2 className="text-2xl font-extrabold text-[#37357f]">All Pets</h2>
+      <h2 className="text-2xl font-extrabold text-[#37357f]">Tüm Hayvanlar</h2>
       {pets.length === 0 && (
-        <p className="text-[#37357f]/70">No pets added yet.</p>
+        <p className="text-[#37357f]/70">Henüz evcil hayvan eklenmedi.</p>
       )}
       {pets.map((pet) => (
         <div
@@ -93,7 +93,7 @@ export default function PetList() {
                 alt={pet.name}
                 className="w-full h-full object-cover"
                 onError={(e) => {
-                  // fallback to paw if image broken
+                  // fallback to pati if image broken
                   const target = e.target as HTMLImageElement;
                   target.style.display = "none";
                   target.parentElement!.classList.add(
@@ -101,12 +101,12 @@ export default function PetList() {
                     "items-center",
                     "justify-center",
                   );
-                  target.parentElement!.innerHTML = "Paw";
+                  target.parentElement!.innerHTML = "Pati";
                 }}
               />
             ) : (
               <div className="w-full h-full flex items-center justify-center text-white/70 text-sm font-bold">
-                Paw
+                Pati
               </div>
             )}
           </div>
@@ -115,12 +115,12 @@ export default function PetList() {
             <h3 className="text-lg font-bold text-[#171717]">
               {pet.name} ({pet.species})
             </h3>
-            <p className="text-[#171717]/75 text-sm">Breed: {pet.breed}</p>
+            <p className="text-[#171717]/75 text-sm">Irk: {pet.breed}</p>
             <p className="text-[#171717]/75 text-sm">
-              Age: {Math.floor(pet.age / 12)} years {pet.age % 12} months
+              Yaş: {Math.floor(pet.age / 12)} yıl {pet.age % 12} ay
             </p>
             <p className="text-[#171717]/75 text-sm">
-              Medical: {pet.medicalStatus || "-"}
+              Sağlık: {pet.medicalStatus || "-"}
             </p>
             <p
               className={`text-sm font-semibold ${
@@ -138,7 +138,7 @@ export default function PetList() {
               onClick={() => handleAdopt(pet.id!)}
               className="text-[#4f8f11] text-sm font-bold cursor-pointer hover:underline"
             >
-              Adopted
+              Sahiplendirilmiş
             </button>
             <button
               onClick={() => handleDelete(pet.id!)}

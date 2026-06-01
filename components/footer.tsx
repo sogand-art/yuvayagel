@@ -30,30 +30,30 @@ export default function Footer() {
                 Yuvaya Gel
               </span>
               <span className="block text-xs font-semibold uppercase tracking-[0.18em] text-white/38">
-                Partner Adoption Network
+                Ortak Sahiplendirme Ağı
               </span>
             </span>
           </Link>
 
           <p className="mt-6 max-w-sm text-sm font-medium leading-7 text-white/48">
-            A shared adoption platform for shelter pets, adopter conversations,
-            and the small practical steps that lead animals home.
+            Barınak hayvanları, sahiplenici sohbetleri,
+            ve hayvanları yuva yoluna taşıyan küçük pratik adımlar için paylaşılan bir platform.
           </p>
         </div>
 
         <div>
           <h3 className="text-sm font-black uppercase tracking-[0.18em] text-[#79c617]">
-            Explore
+            Keşfet
           </h3>
           <ul className="mt-4 space-y-3 text-sm font-semibold text-white/58">
             <li>
               <Link className="transition hover:text-white" href="/">
-                Home
+                Anasayfa
               </Link>
             </li>
             <li>
               <Link className="transition hover:text-white" href="/pets">
-                All Pets
+                Tüm Hayvanlar
               </Link>
             </li>
             <li>
@@ -61,7 +61,7 @@ export default function Footer() {
                 className="transition hover:text-white"
                 href="/pets?species=dog"
               >
-                Dogs
+                Köpekler
               </Link>
             </li>
             <li>
@@ -69,7 +69,7 @@ export default function Footer() {
                 className="transition hover:text-white"
                 href="/pets?species=cat"
               >
-                Cats
+                Kediler
               </Link>
             </li>
           </ul>
@@ -77,7 +77,7 @@ export default function Footer() {
 
         <div>
           <h3 className="text-sm font-black uppercase tracking-[0.18em] text-[#79c617]">
-            Contact
+            İletişim
           </h3>
           <div className="mt-4 space-y-3 text-sm font-semibold text-white/58">
             <p>info@yuvayagel.com</p>

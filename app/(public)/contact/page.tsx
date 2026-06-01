@@ -81,7 +81,7 @@ export default function ContactPage() {
         conversationType: "general",
 
         petId: null,
-        petName: `General Inquiry – ${formData.subject || "No Subject"}`,
+        petName: `Genel Soruşturma – ${formData.subject || "Konu Yok"}`,
 
         userName: formData.name,
         userEmail: formData.email,
@@ -114,10 +114,10 @@ export default function ContactPage() {
       <div className="max-w-5xl mx-auto">
         <div className="mb-12 text-center">
           <p className="text-sm font-extrabold uppercase tracking-[0.18em] text-[#79c617]">
-            Start the conversation
+            Sohbeti başlatın
           </p>
           <h1 className="mt-2 text-4xl md:text-5xl font-extrabold text-[#171717]">
-            Contact Us
+            Bize Ulaşın
           </h1>
         </div>
 
@@ -125,12 +125,14 @@ export default function ContactPage() {
         <div className="grid md:grid-cols-2 gap-6 mb-16">
           <div className="rounded-[2rem] border-4 border-[#37357f] bg-white p-6 text-center shadow-lg">
             <div className="text-4xl mb-3">📞</div>
-            <h3 className="text-xl font-semibold text-[#37357f] mb-1">Phone</h3>
+            <h3 className="text-xl font-semibold text-[#37357f] mb-1">
+              Telefon
+            </h3>
             <p className="text-[#171717]/75 text-lg">+90 555 123 4567</p>
           </div>
           <div className="rounded-[2rem] border-4 border-[#37357f] bg-white p-6 text-center shadow-lg">
             <div className="text-4xl mb-3">✉️</div>
-            <h3 className="text-xl font-semibold text-white mb-1">Email</h3>
+            <h3 className="text-xl font-semibold text-white mb-1">E-posta</h3>
             <p className="text-[#171717]/75 text-lg">info@yuvayagel.com</p>
           </div>
         </div>
@@ -138,19 +140,19 @@ export default function ContactPage() {
         {/* Contact form */}
         <div className="brand-dark-bg rounded-[2rem] border-4 border-[#171717] p-6 shadow-xl md:p-8">
           <h2 className="text-2xl font-bold text-white mb-6 flex items-center gap-2">
-            <span>💬</span> Send Us a Message
+            <span>💬</span> Bize Mesaj Gönder
           </h2>
 
           {formStatus === "success" ? (
             <div className="bg-green-800 text-white p-4 rounded-xl text-center">
-              ✅ Redirecting to your conversation...
+              ✅ Sohbetinize yönlendiriliyor...
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="grid md:grid-cols-2 gap-4">
                 <input
                   type="text"
-                  placeholder="Your name *"
+                  placeholder="Adınız *"
                   value={formData.name}
                   onChange={(e) =>
                     setFormData({ ...formData, name: e.target.value })
@@ -161,7 +163,7 @@ export default function ContactPage() {
                 />
                 <input
                   type="email"
-                  placeholder="Your email *"
+                  placeholder="E-posta Adresiniz *"
                   value={formData.email}
                   onChange={(e) =>
                     setFormData({ ...formData, email: e.target.value })
@@ -173,7 +175,7 @@ export default function ContactPage() {
               </div>
               <input
                 type="text"
-                placeholder="Subject (optional)"
+                placeholder="Konu (opsiyonel)"
                 value={formData.subject}
                 onChange={(e) =>
                   setFormData({ ...formData, subject: e.target.value })
@@ -181,7 +183,7 @@ export default function ContactPage() {
                 className="w-full px-4 py-2 rounded-lg bg-white text-black"
               />
               <textarea
-                placeholder="Your message *"
+                placeholder="Mesajınız *"
                 value={formData.message}
                 onChange={(e) =>
                   setFormData({ ...formData, message: e.target.value })
@@ -196,12 +198,12 @@ export default function ContactPage() {
                   disabled={sending}
                   className="bg-[#4f8f11] hover:bg-[#355e0c] cursor-pointer text-white px-6 py-2 rounded-full font-bold disabled:opacity-50"
                 >
-                  {sending ? "Sending..." : "Send Message"}
+                  {sending ? "Gönderiliyor..." : "Mesaj Gönder"}
                 </button>
               </div>
               {formStatus === "error" && (
                 <p className="text-red-400 text-sm">
-                  Failed to send. Please try again.
+                  Gönderilemedi. Lütfen tekrar deneyin.
                 </p>
               )}
             </form>

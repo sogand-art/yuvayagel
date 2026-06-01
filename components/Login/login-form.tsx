@@ -26,7 +26,7 @@ export default function LoginForm() {
         new URLSearchParams(window.location.search).get("redirect") || "/";
       router.push(redirect);
     } catch {
-      setError("Invalid email or password");
+      setError("Geçersiz e-posta veya şifre");
     } finally {
       setLoading(false);
     }
@@ -66,13 +66,13 @@ export default function LoginForm() {
       >
         <div>
           <p className="text-sm font-extrabold uppercase tracking-[0.18em] text-[#79c617]">
-            Welcome back
+            Tekrar hoş geldiniz
           </p>
-          <h1 className="mt-1 text-2xl font-extrabold text-white">Login</h1>
+          <h1 className="mt-1 text-2xl font-extrabold text-white">Giriş Yap</h1>
         </div>
         <div>
           <label className="block text-sm font-bold text-white/70">
-            Email *
+            E-posta *
           </label>
           <input
             type="email"
@@ -84,7 +84,7 @@ export default function LoginForm() {
 
         <div>
           <label className="block text-sm font-bold text-white/70">
-            Password *
+            Şifre *
           </label>
           <input
             type="password"
@@ -97,7 +97,7 @@ export default function LoginForm() {
             href="/forgot-password"
             className="inline-block text-white/68 font-bold hover:text-white hover:underline mt-2"
           >
-            Forgot password
+            Şifremi Unuttum
           </a>
         </div>
 
@@ -108,7 +108,7 @@ export default function LoginForm() {
           disabled={loading}
           className="w-full mt-4 bg-[#a71d18] cursor-pointer hover:bg-[#861713] text-white py-3 rounded-lg font-bold disabled:opacity-50"
         >
-          {loading ? "Logging in..." : "Login"}
+          {loading ? "Giriş yapılıyor..." : "Giriş Yap"}
         </button>
 
         {/* <div className="my-5 flex items-center w-full">
@@ -119,9 +119,9 @@ export default function LoginForm() {
       </form>
 
       <p className="mt-6 text-lg text-white/72">
-        Not a member?{" "}
+        Üye değil misiniz?{" "}
         <a href="/signup" className="text-white font-bold hover:underline">
-          Sign Up
+          Kayıt Ol
         </a>
       </p>
     </div>

@@ -5,10 +5,10 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 const links = [
-  { href: "/admin", label: "Dashboard" },
-  { href: "/admin/pets", label: "Pets" },
-  { href: "/admin/messages", label: "Messages" },
-  { href: "/admin/adopted", label: "Adopted" },
+  { href: "/admin", label: "Kontrol Paneli" },
+  { href: "/admin/pets", label: "Evcil Hayvanlar" },
+  { href: "/admin/messages", label: "Mesajlar" },
+  { href: "/admin/adopted", label: "Sahiplendirilmiş" },
 ];
 
 export default function Sidebar() {
@@ -45,7 +45,7 @@ export default function Sidebar() {
           href="/"
           className="block px-4 py-2 text-sm font-bold text-[#fff4c7]/80 hover:text-white"
         >
-          ← Back to site
+          ← Siteye geri dön
         </Link>
       </div>
     </aside>

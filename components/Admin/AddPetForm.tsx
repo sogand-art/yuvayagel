@@ -17,6 +17,15 @@ const MEDICAL_OPTIONS = [
   "Special Needs",
 ];
 
+const MEDICAL_LABELS: Record<string, string> = {
+  Healthy: "Sağlıklı",
+  Vaccinated: "Aşılı",
+  Neutered: "Kısırlaştırılmış",
+  Spayed: "Kısırlaştırılmış",
+  "Under Treatment": "Tedavi Altında",
+  "Special Needs": "Özel İhtiyaçlı",
+};
+
 interface FormData {
   name: string;
   species: "dog" | "cat";
@@ -77,11 +86,11 @@ export default function AddPetForm() {
         updatedAt: serverTimestamp(),
       });
 
-      setMessage("Pet added successfully!");
+      setMessage("Hayvan başarıyla eklendi!");
       setForm(EMPTY_FORM);
     } catch (err) {
       console.error(err);
-      setMessage("Failed to add pet. Check console for details.");
+      setMessage("Hayvan eklenemedi. Ayrıntılar için konsola bakın.");
     } finally {
       setLoading(false);
     }
@@ -93,7 +102,7 @@ export default function AddPetForm() {
       className="rounded-2xl border-2 border-[#37357f]/15 bg-white p-6 shadow-md"
     >
       <h2 className="text-2xl font-extrabold text-[#37357f] mb-6 flex items-center gap-2">
-        <span className="h-4 w-4 rounded-full bg-[#79c617]" /> Add New Pet
+        <span className="h-4 w-4 rounded-full bg-[#79c617]" /> Yeni Hayvan Ekle
       </h2>
 
       <div className="grid md:grid-cols-2 gap-6">
@@ -101,11 +110,11 @@ export default function AddPetForm() {
         <div className="space-y-4">
           <div>
             <label className="block text-sm font-bold text-[#37357f] mb-1">
-              Name *
+              İsim *
             </label>
             <input
               name="name"
-              placeholder="e.g. Buddy"
+              placeholder="Örn. Buddy"
               value={form.name}
               onChange={handleChange}
               required
@@ -116,7 +125,7 @@ export default function AddPetForm() {
           <div className="grid grid-cols-2 gap-3">
             <div>
               <label className="block text-sm font-bold text-[#37357f] mb-1">
-                Species *
+                Tür *
               </label>
               <select
                 name="species"
@@ -124,17 +133,17 @@ export default function AddPetForm() {
                 onChange={handleChange}
                 className="w-full px-4 py-2 rounded-lg bg-white text-black"
               >
-                <option value="dog">Dog</option>
-                <option value="cat">Cat</option>
+                <option value="dog">Köpek</option>
+                <option value="cat">Kedi</option>
               </select>
             </div>
             <div>
               <label className="block text-sm font-bold text-[#37357f] mb-1">
-                Breed *
+                Irk *
               </label>
               <input
                 name="breed"
-                placeholder="e.g. Golden Retriever"
+                placeholder="Örn. Golden Retriever"
                 value={form.breed}
                 onChange={handleChange}
                 required
@@ -145,7 +154,7 @@ export default function AddPetForm() {
 
           <div>
             <label className="block text-sm font-bold text-[#37357f] mb-1">
-              Age *
+              Yaş *
             </label>
             <div className="flex gap-3">
               <div className="flex-1">
@@ -157,7 +166,7 @@ export default function AddPetForm() {
                 >
                   {YEARS.map((y) => (
                     <option key={y} value={y}>
-                      {y} {y === 1 ? "year" : "years"}
+                      {y} yıl
                     </option>
                   ))}
                 </select>
@@ -171,7 +180,7 @@ export default function AddPetForm() {
                 >
                   {MONTHS.map((m) => (
                     <option key={m} value={m}>
-                      {m} {m === 1 ? "month" : "months"}
+                      {m} ay
                     </option>
                   ))}
                 </select>
@@ -181,7 +190,7 @@ export default function AddPetForm() {
 
           <div>
             <label className="block text-sm font-bold text-[#37357f] mb-1">
-              Medical Status *
+              Sağlık Durumu *
             </label>
             <select
               name="medicalStatus"
@@ -191,7 +200,7 @@ export default function AddPetForm() {
             >
               {MEDICAL_OPTIONS.map((opt) => (
                 <option key={opt} value={opt}>
-                  {opt}
+                  {MEDICAL_LABELS[opt] || opt}
                 </option>
               ))}
             </select>
@@ -199,11 +208,11 @@ export default function AddPetForm() {
 
           <div>
             <label className="block text-sm font-bold text-[#37357f] mb-1">
-              Description
+              Açıklama
             </label>
             <textarea
               name="description"
-              placeholder="A few words about the pet..."
+              placeholder="Evcil hayvan hakkında birkaç kelime..."
               value={form.description}
               onChange={handleChange}
               rows={3}
@@ -214,12 +223,12 @@ export default function AddPetForm() {
 
         <div>
           <label className="block text-sm font-bold text-[#37357f] mb-2">
-            Photo URL (optional)
+            Fotoğraf URL'si (opsiyonel)
           </label>
           <input
             name="imageUrl"
             type="url"
-            placeholder="https://example.com/photo.jpg"
+            placeholder="https://ornek.com/foto.jpg"
             value={form.imageUrl}
             onChange={handleChange}
             className="w-full px-4 py-2 rounded-lg bg-white text-black"
@@ -240,8 +249,8 @@ export default function AddPetForm() {
           )}
           {!form.imageUrl && (
             <div className="mt-3 rounded-xl border-2 border-dashed border-[#37357f]/25 bg-[#fff9df] p-6 text-center text-[#37357f]/70">
-              <p className="font-medium">No image URL provided</p>
-              <p className="text-sm">A placeholder will be shown</p>
+              <p className="font-medium">Fotoğraf URL'si sağlanmadı</p>
+              <p className="text-sm">Yer tutucu gösterilecektir</p>
             </div>
           )}
         </div>
@@ -250,7 +259,7 @@ export default function AddPetForm() {
       {message && (
         <p
           className={`text-sm mt-4 font-medium ${
-            message.startsWith("Pet added")
+            message.startsWith("Hayvan başarıyla")
               ? "text-[#4f8f11]"
               : "text-[#a71d18]"
           }`}
@@ -263,7 +272,7 @@ export default function AddPetForm() {
         disabled={loading}
         className="w-full mt-6 cursor-pointer bg-[#4f8f11] hover:bg-[#355e0c] text-white py-3 rounded-lg font-bold disabled:opacity-50 transition-colors"
       >
-        {loading ? "Saving Pet..." : "Add Pet"}
+        {loading ? "Kaydediliyor..." : "Hayvan Ekle"}
       </button>
     </form>
   );

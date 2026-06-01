@@ -29,7 +29,7 @@ export default function ForgotPasswordPage() {
     }
 
     if (!isValidEmail(cleanEmail)) {
-      setError("Invalid email format");
+      setError("Geçersiz e-posta formatı");
       return;
     }
 
@@ -38,18 +38,18 @@ export default function ForgotPasswordPage() {
     try {
       await sendPasswordResetEmail(auth, cleanEmail);
 
-      setMessage("If this email exists, a reset link has been sent.");
+      setMessage("Eğer bu e-posta mevcutsa, bir sıfırlama bağlantısı gönderildi.");
       setEmail("");
     } catch (err: any) {
       // Firebase-safe error handling
       const code = err?.code;
 
       if (code === "auth/user-not-found") {
-        setError("No account found with this email");
+        setError("Bu e-posta ile hesap bulunamadı");
       } else if (code === "auth/invalid-email") {
-        setError("Invalid email");
+        setError("Geçersiz e-posta");
       } else {
-        setError("Failed to send reset email. Try again.");
+        setError("Sıfırlama e-postası gönderilemedi. Tekrar deneyin.");
       }
     } finally {
       setLoading(false);
@@ -61,11 +61,11 @@ export default function ForgotPasswordPage() {
       <Logo className="w-64 mb-8" height={140} width={140} />
 
       <h1 className="text-3xl font-bold text-white mb-2">
-        Forgot Your Password?
+        Şifrenizi mi unuttunuz?
       </h1>
 
       <p className="text-white/68 text-center max-w-md mb-6">
-        Enter your email and we’ll send you a reset link.
+        E-posta adresinizi girin, size sıfırlama bağlantısı göndereceğiz.
       </p>
 
       <form
@@ -74,7 +74,7 @@ export default function ForgotPasswordPage() {
       >
         <div>
           <label className="block text-sm font-bold text-white/70">
-            Email *
+            E-posta *
           </label>
 
           <input
@@ -90,7 +90,7 @@ export default function ForgotPasswordPage() {
           disabled={loading}
           className="w-full mt-4 bg-[#a71d18] hover:bg-[#861713] text-white py-3 rounded-lg font-bold disabled:opacity-60"
         >
-          {loading ? "Sending..." : "Send Reset Link"}
+          {loading ? "Gönderiliyor..." : "Sıfırlama Bağlantısı Gönder"}
         </button>
 
         <div className="text-center">
@@ -98,7 +98,7 @@ export default function ForgotPasswordPage() {
             href="/login"
             className="text-white/72 font-bold hover:text-white hover:underline"
           >
-            Login Now
+            Şimdi Giriş Yap
           </Link>
         </div>
       </form>

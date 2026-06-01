@@ -71,7 +71,7 @@ export default function EmailForm() {
       // Create conversation document (general inquiry – no pet)
       const convRef = await addDoc(collection(db, "conversations"), {
         petId: null,
-        petName: "General Inquiry from Homepage",
+        petName: "Ana Sayfadan Genel Soruşturma",
         userName: formData.name,
         userEmail: formData.email,
         userId: currentUser?.uid || null,
@@ -100,16 +100,16 @@ export default function EmailForm() {
     <section className="relative w-full overflow-hidden px-6 py-16 text-white md:py-20">
       <div className="brand-dark-bg relative mx-auto max-w-3xl rounded-[2rem] border border-white/10 p-8 shadow-[0_28px_70px_rgba(0,0,0,0.32)] md:p-12">
         <h2 className="text-3xl font-bold text-white mb-4 text-center">
-          Send Us a Message
+          Bize Mesaj Gönder
         </h2>
         <p className="text-center text-[#fff4c7] mb-8">
-          Drop us a message. We would love to hear from you.
+          Bize bir mesaj bırakın. Sizden duymayı çok isteriz.
         </p>
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <input
             type="text"
-            placeholder="Your Name *"
+            placeholder="Adınız *"
             value={formData.name}
             onChange={(e) => setFormData({ ...formData, name: e.target.value })}
             required
@@ -119,7 +119,7 @@ export default function EmailForm() {
 
           <input
             type="email"
-            placeholder="Your Email *"
+            placeholder="E-posta Adresiniz *"
             value={formData.email}
             onChange={(e) =>
               setFormData({ ...formData, email: e.target.value })
@@ -130,7 +130,7 @@ export default function EmailForm() {
           />
 
           <textarea
-            placeholder="Your Message *"
+            placeholder="Mesajınız *"
             rows={4}
             value={formData.message}
             onChange={(e) =>
@@ -145,12 +145,12 @@ export default function EmailForm() {
             disabled={sending}
             className="rounded-xl py-3 font-bold text-white transition-colors bg-[#4f8f11] hover:bg-[#355e0c] disabled:opacity-50"
           >
-            {sending ? "Sending..." : "Send Message"}
+            {sending ? "Gönderiliyor..." : "Mesaj Gönder"}
           </button>
 
           {formStatus === "error" && (
             <p className="text-red-300 text-sm text-center">
-              Failed to send. Please try again.
+              Gönderilemedi. Lütfen tekrar deneyin.
             </p>
           )}
         </form>

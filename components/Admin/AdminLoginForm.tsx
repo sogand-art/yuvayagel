@@ -34,14 +34,14 @@ export default function AdminLoginForm() {
       if (userDoc.exists() && userDoc.data().role === "admin") {
         router.push("/admin"); // success – go to dashboard
       } else {
-        setError("You are not an admin.");
+        setError("Admin değilsiniz.");
         await auth.signOut(); // log out the authenticated user
       }
     } catch (err: unknown) {
       if (err instanceof Error) {
         setError(
           err.message.includes("auth/")
-            ? "Invalid email or password"
+            ? "Geçersiz e-posta veya şifre"
             : err.message,
         );
       } else {
@@ -62,15 +62,15 @@ export default function AdminLoginForm() {
       >
         <div>
           <p className="text-sm font-extrabold uppercase tracking-[0.18em] text-[#a71d18]">
-            Staff access
+            Personel erişimi
           </p>
           <h1 className="mt-1 text-2xl font-extrabold text-white">
-            Admin Login
+            Yönetici Girişi
           </h1>
         </div>
         <div>
           <label className="block text-sm font-bold text-white/70">
-            Email *
+            E-posta *
           </label>
           <input
             type="email"
@@ -83,7 +83,7 @@ export default function AdminLoginForm() {
 
         <div>
           <label className="block text-sm font-bold text-white/70">
-            Password *
+            Şifre *
           </label>
           <input
             type="password"
@@ -101,7 +101,7 @@ export default function AdminLoginForm() {
           disabled={loading}
           className="w-full mt-4 bg-[#a71d18] cursor-pointer hover:bg-[#861713] text-white py-3 rounded-lg font-bold disabled:opacity-50"
         >
-          {loading ? "Logging in..." : "Admin Login"}
+          {loading ? "Giriş yapılıyor..." : "Yönetici Girişi"}
         </button>
       </form>
     </div>

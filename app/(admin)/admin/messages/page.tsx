@@ -54,7 +54,7 @@ export default function AdminMessagesPage() {
 
   if (loading) {
     return (
-      <p className="text-[#37357f] text-center font-semibold">Loading...</p>
+      <p className="text-[#37357f] text-center font-semibold">Yükleniyor...</p>
     );
   }
 
@@ -175,22 +175,22 @@ export default function AdminMessagesPage() {
   return (
     <div>
       <p className="text-sm font-extrabold uppercase tracking-[0.18em] text-[#37357f]">
-        Adoption conversations
+        Sahiplendirme konuşmaları
       </p>
 
       <h1 className="mt-2 text-3xl font-extrabold text-[#171717] mb-8">
-        Messages
+        Mesajlar
       </h1>
 
       {/* ACTIVE */}
       <Section
-        title="Active Conversations"
+        title="Aktif Konuşmalar"
         color="text-[#4f8f11]"
         count={activeConvs.length}
         openKey="active"
       >
         {activeConvs.length === 0 ? (
-          <Empty text="No active conversations." />
+          <Empty text="Aktif konuşma yok." />
         ) : (
           activeConvs.map(renderConversation)
         )}
@@ -198,13 +198,13 @@ export default function AdminMessagesPage() {
 
       {/* SCHEDULED */}
       <Section
-        title="Scheduled Meetings"
+        title="Planlanan Görüşmeler"
         color="text-blue-500"
         count={scheduledConvs.length}
         openKey="scheduled"
       >
         {scheduledConvs.length === 0 ? (
-          <Empty text="No scheduled meetings." />
+          <Empty text="Planlanmış görüşme yok." />
         ) : (
           scheduledConvs.map(renderConversation)
         )}
@@ -212,13 +212,13 @@ export default function AdminMessagesPage() {
 
       {/* FINISHED */}
       <Section
-        title="Finished Conversations"
+        title="Tamamlanan Konuşmalar"
         color="text-red-400"
         count={finishedConvs.length}
         openKey="finished"
       >
         {finishedConvs.length === 0 ? (
-          <Empty text="No finished conversations." />
+          <Empty text="Tamamlanmış konuşma yok." />
         ) : (
           finishedConvs.map(renderConversation)
         )}

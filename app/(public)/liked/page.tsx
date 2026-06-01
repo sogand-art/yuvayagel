@@ -67,7 +67,7 @@ export default function LikedPetsPage() {
   if (loading) {
     return (
       <div className="brand-page-bg min-h-screen flex items-center justify-center text-[#37357f] font-semibold">
-        Loading...
+        Yükleniyor...
       </div>
     );
   }
@@ -75,12 +75,12 @@ export default function LikedPetsPage() {
   return (
     <div className="brand-page-bg min-h-screen p-6">
       <h1 className="text-4xl font-extrabold text-[#171717] mb-8">
-        Liked Pets
+        Beğendiklerim Evcil Hayvanlar
       </h1>
 
       {pets.length === 0 ? (
         <p className="text-[#37357f]/70">
-          You haven&apos;t liked any pets yet.
+          Henüz hiç evcil hayvan beğenmediniz.
         </p>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-5 gap-6">
@@ -108,7 +108,7 @@ export default function LikedPetsPage() {
                 </h2>
 
                 <p className="text-[#171717]/75 text-sm mt-3">
-                  <span className="font-medium">Breed:</span> {pet.breed}
+                  <span className="font-medium">Irk:</span> {pet.breed}
                 </p>
               </div>
             </Link>

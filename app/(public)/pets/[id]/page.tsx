@@ -146,7 +146,7 @@ export default function PetDetailsPage() {
   // Toggle like
   const toggleLike = async () => {
     if (!currentUser || !pet) {
-      alert("Please login first.");
+      alert("Lütfen önce giriş yapın.");
       return;
     }
 
@@ -217,7 +217,7 @@ export default function PetDetailsPage() {
   if (loading) {
     return (
       <div className="brand-page-bg min-h-screen flex items-center justify-center">
-        <p className="text-[#37357f] font-semibold">Loading...</p>
+        <p className="text-[#37357f] font-semibold">Yükleniyor...</p>
       </div>
     );
   }
@@ -225,10 +225,10 @@ export default function PetDetailsPage() {
   if (!pet) {
     return (
       <div className="brand-page-bg min-h-screen flex flex-col items-center justify-center gap-4">
-        <p className="text-[#171717]">Pet not found.</p>
+        <p className="text-[#171717]">Hayvan bulunamadı.</p>
 
         <Link href="/pets" className="text-[#a71d18] underline">
-          ← Back
+          ← Geri
         </Link>
       </div>
     );
@@ -241,7 +241,7 @@ export default function PetDetailsPage() {
           href="/pets"
           className="text-[#a71d18] hover:underline mb-6 inline-block font-bold"
         >
-          ← Back to Pets
+          ← Hayvanlara geri dön
         </Link>
 
         <div className="overflow-hidden rounded-[2rem] border-4 border-[#37357f]/20 bg-white shadow-xl">
@@ -254,7 +254,7 @@ export default function PetDetailsPage() {
               />
             ) : (
               <div className="w-full h-full flex items-center justify-center text-white/70 text-xl font-bold">
-                Paw
+                Pati
               </div>
             )}
           </div>
@@ -265,7 +265,7 @@ export default function PetDetailsPage() {
                 {pet.name}
 
                 <span className="rounded-full bg-[#79c617]/20 px-3 py-1 text-base font-bold text-[#37357f]">
-                  ({pet.species})
+                  {pet.species === "dog" ? "Köpek" : "Kedi"}
                 </span>
               </h1>
 
@@ -273,14 +273,14 @@ export default function PetDetailsPage() {
                 onClick={toggleLike}
                 className="bg-[#fff4c7] cursor-pointer px-5 py-2 rounded-full text-[#37357f] font-bold transition-all duration-300 hover:bg-[#37357f] hover:text-white hover:scale-105 active:scale-95"
               >
-                {liked ? "❤️ Liked" : "🤍 Like"}
+                {liked ? "❤️ Beğendim" : "🤍 Beğen"}
               </button>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-[#171717] mt-6">
               <div>
                 <p className="text-[#37357f] text-sm font-extrabold uppercase">
-                  Breed
+                  Irk
                 </p>
 
                 <p className="text-lg">{pet.breed}</p>
@@ -288,17 +288,17 @@ export default function PetDetailsPage() {
 
               <div>
                 <p className="text-[#37357f] text-sm font-extrabold uppercase">
-                  Age
+                  Yaş
                 </p>
 
                 <p className="text-lg">
-                  {Math.floor(pet.age / 12)} years {pet.age % 12} months
+                  {Math.floor(pet.age / 12)} yıl {pet.age % 12} ay
                 </p>
               </div>
 
               <div>
                 <p className="text-[#37357f] text-sm font-extrabold uppercase">
-                  Medical
+                  Sağlık
                 </p>
 
                 <p className="text-lg">{pet.medicalStatus || "—"}</p>
@@ -306,7 +306,7 @@ export default function PetDetailsPage() {
 
               <div>
                 <p className="text-[#37357f] text-sm font-extrabold uppercase">
-                  Availability
+                  Uygunluk
                 </p>
 
                 <p className="text-lg capitalize">{pet.availability}</p>
@@ -330,24 +330,24 @@ export default function PetDetailsPage() {
                 href={`/login?redirect=/pets/${pet.id}`}
                 className="mt-8 inline-flex items-center gap-2 bg-[#a71d18] hover:bg-[#861713] text-white px-8 py-3 rounded-full font-bold transition"
               >
-                🔐 Login to Inquire
+                🔐 Sorgulamak için giriş yap
               </Link>
             ) : !showForm ? (
               <button
                 onClick={() => setShowForm(true)}
                 className="mt-8 inline-flex items-center gap-2 bg-[#4f8f11] hover:bg-[#355e0c] cursor-pointer text-white px-8 py-3 rounded-full font-bold"
               >
-                💬 Inquire About {pet.name}
+                💬 {pet.name} hakkında bilgi al
               </button>
             ) : (
               <div className="mt-8">
                 <form onSubmit={handleContact} className="space-y-4">
                   <h3 className="text-xl font-semibold text-[#37357f]">
-                    Send an Inquiry
+                    Bir Sorgu Gönder
                   </h3>
 
                   <textarea
-                    placeholder={`I'm interested in ${pet.name}...`}
+                    placeholder={`${pet.name} ile ilgileniyorum...`}
                     value={formData.message}
                     onChange={(e) =>
                       setFormData({
@@ -366,7 +366,7 @@ export default function PetDetailsPage() {
                       disabled={sending}
                       className="bg-[#4f8f11] hover:bg-[#3a6b0d] cursor-pointer text-white px-6 py-2 rounded-full font-bold disabled:opacity-50"
                     >
-                      {sending ? "Starting..." : "Start Conversation"}
+                      {sending ? "Başlatılıyor..." : "Konuşmayı Başlat"}
                     </button>
 
                     <button
@@ -374,13 +374,13 @@ export default function PetDetailsPage() {
                       onClick={() => setShowForm(false)}
                       className="text-[#37357f]/70 hover:text-[#37357f] cursor-pointer hover:underline"
                     >
-                      Cancel
+                      İptal
                     </button>
                   </div>
 
                   {formStatus === "error" && (
                     <p className="text-red-400 text-sm">
-                      Failed. Please try again.
+                      Başarısız oldu. Lütfen tekrar deneyin.
                     </p>
                   )}
                 </form>
@@ -388,8 +388,8 @@ export default function PetDetailsPage() {
             )}
 
             <p className="text-[#171717]/55 text-sm mt-4">
-              Adoption is completed in person. After you send an inquiry, an
-              admin will reply in your personal conversation thread.
+              Sahiplendirme yüz yüze tamamlanır. Bir sorgu gönderdikten sonra
+              bir yönetici kişisel konuşma hattınızda yanıt verecektir.
             </p>
           </div>
         </div>

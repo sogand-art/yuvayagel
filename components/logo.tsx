@@ -14,7 +14,7 @@ export default function Logo({ height, width, className }: LogoProps) {
     <Link
       href="/"
       className={`inline-flex items-center justify-center -space-x-4 ${className || ""}`}
-      aria-label="Yuvaya Gel partner adoption network"
+      aria-label="Yuvaya Gel ortak sahiplendirme ağı"
     >
       <span
         className="flex items-center justify-center rounded-full border-4 border-[#a71d18] bg-[#fff9df] p-2 shadow-md"

@@ -6,10 +6,10 @@ export default function PetsPage() {
   return (
     <div>
       <p className="text-sm font-extrabold uppercase tracking-[0.18em] text-[#37357f]">
-        Adoption inventory
+        Sahiplendirme envanteri
       </p>
       <h1 className="mt-2 text-3xl font-extrabold text-[#171717] mb-8">
-        Manage Pets
+        Hayvanları Yönet
       </h1>
       <div className="grid lg:grid-cols-2 gap-8">
         <AddPetForm />

@@ -61,7 +61,7 @@ export default function AdminChatPage() {
         setLoading(false);
       } catch (err) {
         console.error(err);
-        setError("Failed to load conversation.");
+        setError("Konuşma yüklenemedi.");
       }
     })();
   }, [convId, router]);
@@ -102,7 +102,9 @@ export default function AdminChatPage() {
   const handleAdopted = async () => {
     if (!conversation || isFinished) return;
 
-    const confirmAdoption = confirm(`Mark ${conversation.petName} as adopted?`);
+    const confirmAdoption = confirm(
+      ` ${conversation.petName} sahiplendirildi olarak işaretlensin mi?`,
+    );
     if (!confirmAdoption) return;
 
     try {
@@ -189,7 +191,7 @@ export default function AdminChatPage() {
   if (loading) {
     return (
       <div className="text-[#37357f] text-center mt-20 font-semibold">
-        Loading...
+        Yükleniyor...
       </div>
     );
   }
@@ -203,7 +205,7 @@ export default function AdminChatPage() {
       {/* TOP BAR */}
       <div className="flex justify-between items-center mb-4">
         <Link href="/admin/messages" className="text-[#a71d18] font-bold">
-          ← Back
+          ← Geri
         </Link>
 
         <div className="flex gap-2">
@@ -215,7 +217,7 @@ export default function AdminChatPage() {
               ${isFinished ? "bg-gray-600" : "bg-[#4f8f11] hover:bg-[#3f740d] cursor-pointer"}
             `}
           >
-            Mark Adopted
+            Sahiplendirildi Olarak İşaretle
           </button>
 
           <button
@@ -229,14 +231,14 @@ export default function AdminChatPage() {
     }
   `}
           >
-            Schedule
+            Planla
           </button>
 
           <button
             onClick={handleFinish}
             className="bg-[#a71d18] hover:bg-[#861713] px-4 py-2 rounded-lg text-sm text-white cursor-pointer"
           >
-            Finish
+            Tamamla
           </button>
         </div>
       </div>
@@ -245,7 +247,7 @@ export default function AdminChatPage() {
         <div className="bg-green-700 text-white px-4 py-3 rounded-xl mb-4 flex items-center gap-2">
           <span>📅</span>
           <span>
-            Appointment scheduled for{" "}
+            Görüşme planlandı:
             <strong>
               {conversation.scheduledTime.toDate().toLocaleString()}
             </strong>
@@ -266,12 +268,12 @@ export default function AdminChatPage() {
       {/* SCHEDULE PANEL */}
       {showSchedule && (
         <div className="mb-4 rounded-2xl border border-[#37357f]/15 bg-white p-4 shadow-md space-y-4">
-          <p className="font-bold text-[#37357f] text-lg">Schedule Meeting</p>
+          <p className="font-bold text-[#37357f] text-lg">Görüşme Planla</p>
 
           {/* DATE PICKER */}
           <div>
             <label className="text-sm font-semibold text-[#37357f]/70">
-              Select Date
+              Tarih Seç
             </label>
             <input
               type="date"
@@ -285,7 +287,7 @@ export default function AdminChatPage() {
           {/* TIME SLOTS */}
           <div>
             <label className="text-sm font-semibold text-[#37357f]/70">
-              Select Time
+              Saat Seç
             </label>
 
             <select
@@ -293,7 +295,7 @@ export default function AdminChatPage() {
               value={scheduleTime}
               onChange={(e) => setScheduleTime(e.target.value)}
             >
-              <option value="">Choose a time</option>
+              <option value="">Bir saat seç</option>
               <option value="09:00">09:00</option>
               <option value="11:00">11:00</option>
               <option value="13:00">13:00</option>
@@ -309,7 +311,7 @@ export default function AdminChatPage() {
               onClick={() => setShowSchedule(false)}
               className="flex-1 bg-[#37357f] hover:bg-[#2a2860] text-white cursor-pointer px-4 py-2 rounded-lg font-semibold"
             >
-              Cancel
+              İptal
             </button>
 
             <button
@@ -339,7 +341,7 @@ export default function AdminChatPage() {
     }
   `}
             >
-              Confirm Schedule
+              Planı Onayla
             </button>
           </div>
         </div>
@@ -348,7 +350,7 @@ export default function AdminChatPage() {
       {/* FINISHED BANNER */}
       {isFinished && (
         <div className="bg-[#a71d18] text-white p-3 rounded-xl mb-4">
-          This conversation is finished (read-only history).
+          Bu konuşma tamamlandı (sadece geçmiş görüntülenir).
         </div>
       )}
 
@@ -357,8 +359,8 @@ export default function AdminChatPage() {
         {conversation?.scheduledTime && messages.length > 0 && (
           <div className="flex justify-center">
             <div className="bg-[#37357f]/10 text-[#37357f] text-sm px-4 py-2 rounded-full">
-              📅 Meeting scheduled for{" "}
-              {conversation.scheduledTime.toDate().toLocaleString()}
+              📅 Görüşme planlandı:{" "}
+              {conversation.scheduledTime.toDate().toLocaleTimeString()}
             </div>
           </div>
         )}
@@ -382,7 +384,7 @@ export default function AdminChatPage() {
       {/* INPUT */}
       {isFinished ? (
         <div className="text-center text-red-200 bg-red-500/20 p-3 rounded-xl">
-          Chat is closed. You can only view history.
+          Sohbet kapatıldı. Yalnızca geçmişi görüntüleyebilirsiniz.
         </div>
       ) : (
         <form onSubmit={handleSend} className="flex gap-2">
@@ -390,10 +392,10 @@ export default function AdminChatPage() {
             value={newMsg}
             onChange={(e) => setNewMsg(e.target.value)}
             className="flex-1 px-4 py-2 rounded-lg"
-            placeholder="Reply..."
+            placeholder="Yanıtla..."
           />
           <button className="bg-[#4f8f11] hover:bg-[#3a6b0d] cursor-pointer px-6 py-2 rounded-lg text-white font-bold">
-            Send
+            Gönder
           </button>
         </form>
       )}

@@ -5,16 +5,16 @@ export default function PetCategories() {
   const categories = [
     {
       href: "/pets?species=dog",
-      label: "Dogs",
-      text: "Loyal companions waiting for a fresh start.",
+      label: "Köpekler",
+      text: "Yeni bir başlangıç bekleyen sadık dostlar.",
       image: "/dog-hero.png",
       border: "border-[#79c617]/24",
       glow: "from-[#79c617]/22",
     },
     {
       href: "/pets?species=cat",
-      label: "Cats",
-      text: "Curious, calm, playful, and ready for home.",
+      label: "Kediler",
+      text: "Meraklı, sakin, oyuncu ve yuvaya hazır.",
       image: "/cat-hero.png",
       border: "border-[#a71d18]/28",
       glow: "from-[#a71d18]/26",
@@ -30,10 +30,10 @@ export default function PetCategories() {
         <div className="mb-10 flex flex-col justify-between gap-4 md:flex-row md:items-end">
           <div>
             <p className="text-sm font-extrabold uppercase tracking-[0.2em] text-[#79c617]">
-              Choose a path
+              Bir yol seç
             </p>
             <h2 className="mt-2 text-3xl font-black text-white md:text-5xl">
-              Find Your Companion
+              Yol Arkadaşını Bul
             </h2>
           </div>
         </div>
@@ -67,7 +67,7 @@ export default function PetCategories() {
                   {category.text}
                 </p>
                 <span className="mt-6 inline-flex w-fit rounded-full border border-white/15 bg-white/[0.07] px-5 py-2 text-xs font-extrabold uppercase tracking-[0.16em] text-white/70 transition-all duration-300 group-hover:bg-white/15 group-hover:text-white group-hover:scale-105 group-hover:border-white/30 cursor-pointer">
-                  Browse
+                  Göz At
                 </span>
               </div>
             </Link>

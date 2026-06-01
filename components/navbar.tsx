@@ -96,7 +96,7 @@ export default function Navbar() {
               Yuvaya Gel
             </span>
             <span className="block text-[10px] font-semibold tracking-widest text-white/40 uppercase">
-              Partner Adoption Network
+              Ortak Sahiplendirme Ağı
             </span>
           </span>
         </Link>
@@ -104,14 +104,14 @@ export default function Navbar() {
         {/* Desktop nav */}
         <div className="hidden md:flex items-center gap-1">
           {[
-            { href: "/", label: "Home" },
-            { href: "/pets", label: "Pets" },
-            { href: "/pets?species=dog", label: "Dogs" },
-            { href: "/pets?species=cat", label: "Cats" },
-            { href: "/liked", label: "Liked" },
-            { href: "/my-messages", label: "Messages" },
-            { href: "/about", label: "About" },
-            { href: "/contact", label: "Contact" },
+            { href: "/", label: "Anasayfa" },
+            { href: "/pets", label: "Evcil Hayvanlar" },
+            { href: "/pets?species=dog", label: "Köpekler" },
+            { href: "/pets?species=cat", label: "Kediler" },
+            { href: "/liked", label: "Beğendiklerim" },
+            { href: "/my-messages", label: "Mesajlar" },
+            { href: "/about", label: "Hakkımızda" },
+            { href: "/contact", label: "İletişim" },
           ].map(({ href, label }) => (
             <Link
               key={label}
@@ -135,7 +135,7 @@ export default function Navbar() {
                   onClick={handleLogout}
                   className="text-[13px] text-white/40 hover:text-white/70 transition-colors underline underline-offset-2"
                 >
-                  Log out
+                  Çıkış Yap
                 </button>
               </>
             ) : (
@@ -143,7 +143,7 @@ export default function Navbar() {
                 href="/login"
                 className="rounded-full bg-[#a71d18] px-5 py-1.5 text-[13px] font-bold text-white shadow-lg shadow-[#a71d18]/30 hover:bg-[#c0221c] transition-all"
               >
-                Login
+                Giriş Yap
               </Link>
             )}
           </div>
@@ -189,14 +189,14 @@ export default function Navbar() {
           }}
         >
           {[
-            { href: "/", label: "Home" },
-            { href: "/pets", label: "Pets" },
-            { href: "/pets?species=dog", label: "Dogs" },
-            { href: "/pets?species=cat", label: "Cats" },
-            { href: "/liked", label: "Liked" },
-            { href: "/my-messages", label: "Messages" },
-            { href: "/about", label: "About" },
-            { href: "/contact", label: "Contact" },
+            { href: "/", label: "Anasayfa" },
+            { href: "/pets", label: "Evcil Hayvanlar" },
+            { href: "/pets?species=dog", label: "Köpekler" },
+            { href: "/pets?species=cat", label: "Kediler" },
+            { href: "/liked", label: "Beğendiklerim" },
+            { href: "/my-messages", label: "Mesajlar" },
+            { href: "/about", label: "Hakkımızda" },
+            { href: "/contact", label: "İletişim" },
           ].map(({ href, label }) => (
             <Link
               key={label}
@@ -223,7 +223,7 @@ export default function Navbar() {
                   }}
                   className="text-left text-sm text-white/40 underline"
                 >
-                  Log out
+                  Çıkış Yap
                 </button>
               </div>
             ) : (
@@ -232,7 +232,7 @@ export default function Navbar() {
                 onClick={() => setMenuOpen(false)}
                 className="inline-block rounded-full bg-[#a71d18] px-6 py-2 text-sm font-bold text-white"
               >
-                Login
+                Giriş Yap
               </Link>
             )}
           </div>

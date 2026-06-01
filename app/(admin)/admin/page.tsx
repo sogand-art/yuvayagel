@@ -43,26 +43,26 @@ export default function AdminDashboard() {
   if (loading) {
     return (
       <p className="text-[#37357f] text-lg font-semibold">
-        Loading statistics...
+        İstatistikler yükleniyor...
       </p>
     );
   }
 
   const cards = [
-    { label: "Total Pets", value: stats.total },
-    { label: "Dogs", value: stats.dogs },
-    { label: "Cats", value: stats.cats },
-    { label: "Available", value: stats.available },
-    { label: "Adopted", value: stats.adopted },
+    { label: "Toplam Hayvan", value: stats.total },
+    { label: "Köpekler", value: stats.dogs },
+    { label: "Kediler", value: stats.cats },
+    { label: "Uygun", value: stats.available },
+    { label: "Sahiplendirilmiş", value: stats.adopted },
   ];
 
   return (
     <div>
       <p className="text-sm font-extrabold uppercase tracking-[0.18em] text-[#37357f]">
-        Shelter operations
+        Barınak operasyonları
       </p>
       <h1 className="mt-2 text-3xl font-extrabold text-[#171717] mb-8">
-        Dashboard
+        Kontrol Paneli
       </h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {cards.map((card) => (

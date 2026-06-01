@@ -7,13 +7,15 @@ export default function Hero() {
       <div className="relative mx-auto grid min-h-[760px] w-full max-w-7xl grid-cols-1 items-center gap-6 px-6 pb-20 pt-32 md:min-h-[calc(100vh+24px)] md:grid-cols-[0.92fr_1.08fr] md:pb-24 md:pt-24 lg:px-10">
         <div className="z-20 max-w-2xl">
           <h1 className="max-w-3xl text-[clamp(3.2rem,8vw,6.7rem)] font-black leading-[0.9] tracking-normal text-white">
-            Every pet deserves a <span className="text-[#4f8f11]">home.</span>
+            Her evcil hayvan bir <span className="text-[#4f8f11]">yuva</span>{" "}
+            hak eder.
           </h1>
 
           <p className="mt-7 max-w-xl text-base font-medium leading-8 text-white/60 md:text-lg">
-            Yuvaya Gel brings shelter cats and dogs into one calm adoption
-            space. Browse real profiles, save your favorites, ask questions, and
-            continue the adoption journey with the shelter team.
+            Yuvaya Gel, barınak kedilerini ve köpeklerini huzurlu bir
+            sahiplendirme yolculuğuna taşır. Gerçek profillere göz atın,
+            favorilerinizi kaydedin, sorular sorun ve barınak ekibiyle
+            sahiplendirme sürecine devam edin.
           </p>
 
           <div className="mt-9 flex flex-wrap gap-3">
@@ -21,13 +23,13 @@ export default function Hero() {
               href="/pets"
               className="inline-flex items-center justify-center rounded-full bg-[#4f8f11] px-8 py-3 text-sm font-extrabold text-white shadow-[0_18px_42px_rgba(167,29,24,0.32)] transition hover:bg-[#355e0c]"
             >
-              Meet Our Pets
+              Evcil Hayvanlarımızı Gör
             </Link>
             <Link
               href="/about"
               className="inline-flex items-center justify-center rounded-full border border-white/15 bg-white/[0.07] px-8 py-3 text-sm font-extrabold text-white/75 backdrop-blur-md transition hover:bg-white/[0.12] hover:text-white"
             >
-              How It Works
+              Nasıl Çalışır
             </Link>
           </div>
         </div>

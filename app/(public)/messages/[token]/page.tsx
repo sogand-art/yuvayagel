@@ -102,7 +102,7 @@ export default function UserChatPage() {
     return (
       <div className="brand-page-bg min-h-screen flex items-center justify-center">
         <p className="text-[#37357f] text-xl font-semibold">
-          Loading conversation...
+          Konuşma yükleniyor...
         </p>
       </div>
     );
@@ -116,10 +116,12 @@ export default function UserChatPage() {
             href="/my-messages"
             className="text-[#a71d18] hover:underline font-bold"
           >
-            ← My Messages
+            ← Mesajlarım
           </Link>
           <h1 className="text-2xl font-bold text-[#171717]">
-            Chat about {conversation?.petName || "Pet"}
+            {conversation?.petName
+              ? `${conversation.petName} hakkında sohbet`
+              : "Evcil hayvan hakkında sohbet"}
           </h1>
         </div>
         {conversation?.conversationType === "adoption" && (
@@ -133,7 +135,7 @@ export default function UserChatPage() {
                     className="w-full h-full object-cover"
                   />
                 ) : (
-                  <span className="text-white/70 font-bold">Paw</span>
+                  <span className="text-white/70 font-bold">Pati</span>
                 )}
               </div>
 
@@ -145,12 +147,12 @@ export default function UserChatPage() {
                 <p className="text-[#171717]/70">{conversation?.petBreed}</p>
 
                 <p className="text-[#37357f]/70 text-sm capitalize">
-                  {conversation?.petSpecies}
+                  {conversation?.petSpecies === "dog" ? "Köpek" : "Kedi"}
                 </p>
 
                 <p className="text-[#37357f]/70 text-sm">
-                  {Math.floor((conversation?.petAge || 0) / 12)} years{" "}
-                  {(conversation?.petAge || 0) % 12} months
+                  {Math.floor((conversation?.petAge || 0) / 12)} yıl{" "}
+                  {(conversation?.petAge || 0) % 12} ay
                 </p>
               </div>
             </div>
@@ -160,7 +162,7 @@ export default function UserChatPage() {
         {/* Scheduled Appointment Banner */}
         {conversation?.status === "finished" && (
           <div className="bg-[#a71d18] text-white px-4 py-3 rounded-xl mb-4">
-            🔒 This conversation has been closed.
+            🔒 Bu konuşma kapatıldı.
           </div>
         )}
         {conversation?.status === "scheduled" &&
@@ -168,7 +170,7 @@ export default function UserChatPage() {
             <div className="bg-green-700 text-white px-4 py-3 rounded-xl mb-4 flex items-center gap-2">
               <span>📅</span>
               <span>
-                Appointment scheduled for{" "}
+                Görüşme planlandı:
                 <strong>
                   {conversation.scheduledTime.toDate().toLocaleString()}
                 </strong>
@@ -181,7 +183,7 @@ export default function UserChatPage() {
           {conversation?.scheduledTime && messages.length > 0 && (
             <div className="flex justify-center">
               <div className="bg-[#37357f]/10 text-[#37357f] text-sm px-4 py-2 rounded-full">
-                📅 Meeting scheduled for{" "}
+                📅 Görüşme planlandı:{" "}
                 {conversation.scheduledTime.toDate().toLocaleString()}
               </div>
             </div>
@@ -214,7 +216,7 @@ export default function UserChatPage() {
         {/* Input */}
         {conversation?.status === "finished" ? (
           <div className="bg-[#a71d18] text-white rounded-xl p-4 text-center">
-            This conversation has been closed.
+            Bu konuşma kapatıldı.
           </div>
         ) : (
           <form onSubmit={handleSend} className="flex gap-2">
@@ -222,14 +224,14 @@ export default function UserChatPage() {
               type="text"
               value={newMsg}
               onChange={(e) => setNewMsg(e.target.value)}
-              placeholder="Type your message..."
+              placeholder="Mesajınızı yazın..."
               className="flex-1 px-4 py-2 rounded-lg bg-white text-black"
             />
             <button
               type="submit"
               className="bg-[#4f8f11] hover:bg-[#3a6b0d] text-white px-6 py-2 rounded-lg font-bold"
             >
-              Send
+              Gönder
             </button>
           </form>
         )}

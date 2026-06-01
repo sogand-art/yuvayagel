@@ -103,7 +103,7 @@ function PublicPetsContent() {
     const user = auth.currentUser;
 
     if (!user) {
-      alert("Please login first.");
+      alert("Lütfen önce giriş yapın.");
       return;
     }
 
@@ -141,10 +141,10 @@ function PublicPetsContent() {
       <div className="max-w-7xl mx-auto">
         <div className="mb-8 text-center">
           <p className="text-sm font-extrabold uppercase tracking-[0.18em] text-[#79c617]">
-            Available companions
+            Uygun dostlar
           </p>
           <h1 className="mt-2 text-3xl md:text-5xl font-extrabold text-[#171717]">
-            Meet Our Pets
+            Evcil Hayvanlarımızı Gör
           </h1>
         </div>
 
@@ -160,19 +160,26 @@ function PublicPetsContent() {
                   : "border-2 border-[#37357f]/20 bg-white text-[#37357f] hover:border-[#79c617]"
               }`}
             >
-              {option === "all" ? "All" : option === "dog" ? "Dogs" : "Cats"}
+              {option === "all"
+                ? "Tümü"
+                : option === "dog"
+                  ? "Köpekler"
+                  : "Kediler"}
             </button>
           ))}
         </div>
 
         {loading ? (
           <p className="text-[#37357f] text-center text-lg font-semibold">
-            Loading pets...
+            Evcil hayvanlar yükleniyor...
           </p>
         ) : filteredPets.length === 0 ? (
           <p className="text-[#37357f]/70 text-center text-lg">
-            No pets found
-            {filter !== "all" ? ` in ${filter}s` : ""}.
+            Hiç evcil hayvan bulunamadı
+            {filter !== "all"
+              ? ` (${filter === "dog" ? "Köpek" : "Kedi"} araması)`
+              : ""}
+            .
           </p>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -193,7 +200,7 @@ function PublicPetsContent() {
                     />
                   ) : (
                     <div className="w-full h-full flex items-center justify-center text-[#37357f]/60 text-xl font-bold">
-                      Paw
+                      Pati
                     </div>
                   )}
                 </div>
@@ -210,8 +217,8 @@ function PublicPetsContent() {
                       className="rounded-full bg-[#fff4c7] px-3 py-1 text-xl hover:scale-110 transition-transform"
                       aria-label={
                         likedPets.includes(pet.id)
-                          ? `Unlike ${pet.name}`
-                          : `Like ${pet.name}`
+                          ? `Beğenmekten vazgeç ${pet.name}`
+                          : `Beğen ${pet.name}`
                       }
                     >
                       {likedPets.includes(pet.id) ? "❤️" : "🤍"}
@@ -222,21 +229,21 @@ function PublicPetsContent() {
                     {pet.name}
 
                     <span className="rounded-full bg-[#79c617]/20 px-2 py-0.5 text-sm font-bold text-[#37357f]">
-                      ({pet.species})
+                      {pet.species === "dog" ? "Köpek" : "Kedi"}
                     </span>
                   </h2>
 
                   <p className="text-[#171717]/75 text-sm mt-3">
-                    <span className="font-medium">Breed:</span> {pet.breed}
+                    <span className="font-medium">Irk:</span> {pet.breed}
                   </p>
 
                   <p className="text-[#171717]/75 text-sm">
-                    <span className="font-medium">Age:</span>{" "}
-                    {Math.floor(pet.age / 12)} years {pet.age % 12} months
+                    <span className="font-medium">Yaş:</span>{" "}
+                    {Math.floor(pet.age / 12)} yıl {pet.age % 12} ay
                   </p>
 
                   <p className="text-[#171717]/75 text-sm">
-                    <span className="font-medium">Medical:</span>{" "}
+                    <span className="font-medium">Sağlık:</span>{" "}
                     {pet.medicalStatus || "—"}
                   </p>
 
@@ -261,7 +268,7 @@ export default function PublicPetsPage() {
       fallback={
         <div className="brand-page-bg min-h-screen py-12 px-4 md:px-8">
           <p className="text-center text-lg font-semibold text-[#37357f]">
-            Loading pets...
+            Evcil hayvanlar yükleniyor...
           </p>
         </div>
       }

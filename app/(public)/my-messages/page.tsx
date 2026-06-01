@@ -58,7 +58,7 @@ export default function MyMessagesPage() {
   if (loading)
     return (
       <div className="brand-page-bg min-h-screen flex items-center justify-center">
-        <p className="text-[#37357f] font-semibold">Loading...</p>
+        <p className="text-[#37357f] font-semibold">Yükleniyor...</p>
       </div>
     );
 
@@ -66,10 +66,10 @@ export default function MyMessagesPage() {
     <div className="brand-page-bg min-h-screen py-12 px-4">
       <div className="max-w-2xl mx-auto">
         <h1 className="text-3xl font-extrabold text-[#171717] mb-8">
-          My Messages
+          Mesajlarım
         </h1>
         {convs.length === 0 ? (
-          <p className="text-[#37357f]/70">No conversations yet.</p>
+          <p className="text-[#37357f]/70">Henüz konuşma yok.</p>
         ) : (
           <div className="space-y-4">
             {convs.map((conv) => (
@@ -80,10 +80,16 @@ export default function MyMessagesPage() {
               >
                 <p className="text-[#171717] font-semibold">{conv.petName}</p>
                 <p className="text-[#37357f]/70 text-sm capitalize">
-                  {conv.status}
+                  {conv.status === "active"
+                    ? "Aktif"
+                    : conv.status === "scheduled"
+                      ? "Planlandı"
+                      : conv.status === "finished"
+                        ? "Tamamlandı"
+                        : conv.status}
                 </p>
                 <p className="text-[#171717]/50 text-xs">
-                  Last updated: {conv.updatedAt.toDate().toLocaleDateString()}
+                  Son güncelleme: {conv.updatedAt.toDate().toLocaleDateString()}
                 </p>
               </Link>
             ))}

@@ -51,14 +51,14 @@ export default function AdoptedPetsPage() {
   return (
     <div>
       <p className="text-sm font-extrabold uppercase tracking-[0.18em] text-[#37357f]">
-        Completed adoptions
+        Tamamlanan sahiplendirmeler
       </p>
       <h1 className="mt-2 text-4xl font-extrabold text-[#171717] mb-8">
-        Adopted Pets
+        Sahiplendirilmiş Hayvanlar
       </h1>
 
       {pets.length === 0 ? (
-        <p className="text-[#37357f]/70">No adopted pets yet.</p>
+        <p className="text-[#37357f]/70">Henüz sahiplendirilmiş hayvan yok.</p>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
           {pets.map((pet) => (
@@ -83,7 +83,7 @@ export default function AdoptedPetsPage() {
                 <p className="text-[#171717]/70">{pet.petBreed}</p>
 
                 <div className="mt-4 border-t border-[#37357f]/15 pt-4">
-                  <p className="text-[#37357f] font-bold">Adopted By</p>
+                  <p className="text-[#37357f] font-bold">Sahiplendiren</p>
 
                   <p className="text-[#171717]/80">{pet.adopterName}</p>
 
